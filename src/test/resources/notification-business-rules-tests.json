@@ -1,0 +1,80 @@
+{
+  "description": "test cases related to rules for evaluating notifications",
+  "features": [
+    {
+      "name": "tc01_sms_enrollment_notification_enabled",
+      "description": "sms enrollment notification should appear when phone number is not enrolled for text messaging",
+      "testData": [
+        {
+          "key": "notification-evaluation:sms-enrollment-notification.status",
+          "dataValue": null,
+          "dataId": null
+        },
+        {
+          "key": "notification-evaluation:sms-enrollment-notification.last-execution",
+          "dataValue": "2021-01-31",
+          "dataId": null
+        },
+        {
+          "key": "registration:enrollment.SCS_SITE.action-date",
+          "dataValue": "2021-01-31",
+          "dataId": null
+        },
+        {
+          "key": "client-telephones:sms-enrollment-status",
+          "dataValue": null,
+          "dataId": null
+        }
+      ],
+      "requirements": {
+        "conditions": [
+          {
+            "type": "test",
+            "key": "rules-validator:rule-execution-feature.name",
+            "equals": "sms_enrollment_notification"
+          },
+          {
+            "type": "test",
+            "key": "rules-validator:rule-execution-result.feature",
+            "contains": "sms_enrollment_notification"
+          }
+        ]
+      }
+    },
+    {
+      "name": "tc02_sms_enrollment_notification_disabled",
+      "description": "sms enrollment notification should not appear when phone number is enrolled for text messaging",
+      "testData": [
+        {
+          "key": "notification-evaluation:sms-enrollment-notification.status",
+          "dataValue": null,
+          "dataId": null
+        },
+        {
+          "key": "notification-evaluation:sms-enrollment-notification.last-execution",
+          "dataValue": "2021-01-31",
+          "dataId": null
+        },
+        {
+          "key": "client-telephones:sms-enrollment-status",
+          "dataValue": "ENROLLED",
+          "dataId": "612-123-1234"
+        }
+      ],
+      "requirements": {
+        "conditions": [
+          {
+            "type": "test",
+            "key": "rules-validator:rule-execution-feature.name",
+            "equals": "sms_enrollment_notification"
+          },
+          {
+            "type": "test",
+            "key": "rules-validator:rule-execution-result.feature",
+            "notContains": "sms_enrollment_notification"
+          }
+        ]
+      }
+    }
+  ]
+}

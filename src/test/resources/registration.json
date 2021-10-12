@@ -1,0 +1,20 @@
+{
+  "value": {
+    "capabilities": [
+      {
+        "capabilityId": "SCS_SITE",
+        "enrollment": {
+          "enrollmentStatusCd": "ENROLLED",
+          "actionDt": "2021-04-01"
+        }
+      },
+      {
+        "capabilityId": "TOTAL_VIEW",
+        "enrollment": {
+          "enrollmentStatusCd": "NO_ACTION",
+          "actionDt": null
+        }
+      }
+    ]
+  }
+}

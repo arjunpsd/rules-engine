@@ -1,0 +1,115 @@
+@Library('afi-jenkins-shared-lib@release') _
+def config =[:]
+def jarFileName = ""
+pipeline
+{
+    agent { label DEFAULT_AWS_LINUX_AGENT }
+    stages
+    {
+        stage("Preconfig Setup")
+        {
+            steps
+            {
+                script
+                {
+                    config = pipelineSetup()
+                    serviceNames=utilities.generateServiceNamesListFromConfigMap(config)
+                    jarFileName = config['veracodeSourceDirectory'] + "/" + serviceNames.first() + "-" + config['release'] + ".jar"
+                }
+            }
+        }
+      	stage("Compile")
+        {
+            steps
+            {
+                script
+                {
+                    runMaven(config['compileArgs'])
+                }
+                
+            }
+        }
+        stage("Code Quality")
+        {
+            parallel
+            {
+                stage("SonarQube Scan")
+                {
+                    steps
+                    {
+                        script
+                        {
+                            runMavenSonar(config)
+                        }
+                    }
+                }
+                stage("Blackduck Scan")
+                {
+                    when
+                    {
+                        expression {env.BRANCH_NAME ==~ /(master|develop)/}
+                    }
+                    steps
+                    {
+                        script
+                        {
+                            runBlackDuckScan(config)
+                        }
+                    }
+                }
+                stage("Veracode Sandbox Scan")
+                {
+                    when
+                    {
+                        expression {env.BRANCH_NAME ==~ /(master|develop)/}
+                    }
+                    steps
+                    {
+                        script
+                        {
+                            runVeracodeScan(config)
+                        }
+                    }
+                }
+                stage("Veracode Pipeline Scan")
+                {
+                    when
+                    {
+                      expression {env.BRANCH_NAME ==~ /(PR-.+)/}
+                    }
+                    steps
+                    {
+                      script
+                      {
+                        runVeracodePipelineScan(config, config['veracodeProfileName'], jarFileName)
+                      }
+                    }
+                }
+            }
+        }
+        stage("Upload to artifactory")
+        {
+            when
+            {
+                expression {env.BRANCH_NAME ==~ /(master|develop)/}
+            }
+            steps
+            {
+                  script
+                  {
+                      runUploadToArtifactory(config)
+                  }                  
+            }
+        }
+    }
+    post
+    {
+        always
+        {
+            script
+            {
+                utilities.cleanup()
+            }
+        }
+    }
+}

@@ -1,0 +1,75 @@
+{
+  "description": "rules for evaluating notifications",
+  "features": [
+    {
+      "name": "sms_enrollment_notification",
+      "description": "rules to evaluate of SMS enrollment notification should be displayed",
+      "requirements": {
+        "preConditions": [
+          {
+            "type": "data",
+            "key": "notification-evaluation:sms-enrollment-notification.last-execution",
+            "beyondDays": 7
+          },
+          {
+            "type": "data",
+            "key": "notification-evaluation:sms-enrollment-notification.status",
+            "notEquals": "127"
+          }
+        ],
+        "conditions": [
+          {
+            "type": "data",
+            "key": "client-telephones:sms-enrollment-status",
+            "notOneOf": [
+              "ENROLLED"
+            ]
+          },
+          {
+            "type": "data",
+            "key": "registration:enrollment.SCS_SITE.action-date",
+            "withinDays": 1500
+          }
+        ]
+      }
+    },
+    {
+      "name": "anniversary_notification",
+      "description": "rule to evaluate anniversary notification is applicable",
+      "requirements": {
+        "values": [
+          {
+            "type": "data",
+            "key": "advice-insights:anniversary-milestone-number",
+            "oneOf": [
+              "5",
+              "10",
+              "15"
+            ]
+          },
+          {
+            "type": "data",
+            "key": "registration:enrollment.SCS_SITE.action-date",
+            "beyondDays": 90
+          }
+        ]
+      }
+    },
+    {
+      "name": "credit_card_offer",
+      "description": "rule to evaluate credit card offer",
+      "requirements": {
+        "options": {
+          "combination": "AND"
+        },
+        "values": [
+          {
+            "type": "data",
+            "key": "advice-insights:credit-card-promotion",
+            "equals": "Y"
+          }
+        ]
+      }
+    }
+  ]
+}

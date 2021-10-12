@@ -1,0 +1,7 @@
+dataMapping:
+  jsonPaths: { \
+    'anniversary-milestone-number': '$..milestone_nbr', \
+    'credit-card-promotion': '$..promotion', \
+    'sms-enrollment-status': '$..smsEnrlCd', \
+    'enrollment.SCS_SITE.action-date': '$..capabilities[?(@.capabilityId == "SCS_SITE" && @.enrollment)].enrollment.actionDt' \
+  }
