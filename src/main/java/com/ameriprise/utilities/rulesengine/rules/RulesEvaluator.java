@@ -4,19 +4,20 @@
  */
 package com.ameriprise.utilities.rulesengine.rules;
 
-import com.ameriprise.utilities.rulesengine.datasources.models.DataSet;
-import com.ameriprise.utilities.rulesengine.rules.models.*;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import static com.ameriprise.utilities.rulesengine.rules.Matchers.*;
+import static java.util.Objects.nonNull;
+import static java.util.Objects.requireNonNull;
+import static org.apache.commons.collections4.CollectionUtils.isEmpty;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static com.ameriprise.utilities.rulesengine.rules.Matchers.*;
-import static java.util.Objects.nonNull;
-import static java.util.Objects.requireNonNull;
-import static org.apache.commons.collections4.CollectionUtils.isEmpty;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.ameriprise.utilities.rulesengine.datasources.models.DataSet;
+import com.ameriprise.utilities.rulesengine.rules.models.*;
 
 public class RulesEvaluator {
 

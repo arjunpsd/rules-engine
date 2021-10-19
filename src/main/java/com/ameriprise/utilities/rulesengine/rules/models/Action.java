@@ -1,3 +1,7 @@
+/**
+ * Copyright 2021 Ameriprise Financial, Inc. All rights reserved. Proprietary and Confidential. Use
+ * is subject to license terms.
+ */
 package com.ameriprise.utilities.rulesengine.rules.models;
 
 public class Action {
@@ -6,15 +10,13 @@ public class Action {
   String value;
   String defaultValue;
 
-  public Action() {
-  }
+  public Action() {}
 
   public Action(String type, String key, String value) {
     this.type = type;
     this.key = key;
     this.value = value;
   }
-
 
   public String getType() {
     return type;

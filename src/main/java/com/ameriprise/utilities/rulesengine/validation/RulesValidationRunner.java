@@ -4,15 +4,7 @@
  */
 package com.ameriprise.utilities.rulesengine.validation;
 
-import com.ameriprise.utilities.rulesengine.RulesEngine;
-import com.ameriprise.utilities.rulesengine.rules.RulesLoader;
-import com.ameriprise.utilities.rulesengine.rules.models.Feature;
-import com.ameriprise.utilities.rulesengine.rules.models.RuleEvaluationResult;
-import com.ameriprise.utilities.rulesengine.rules.models.Rules;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import static org.apache.commons.collections4.CollectionUtils.isNotEmpty;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -21,7 +13,14 @@ import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
 
-import static org.apache.commons.collections4.CollectionUtils.isNotEmpty;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+import com.ameriprise.utilities.rulesengine.RulesEngine;
+import com.ameriprise.utilities.rulesengine.rules.RulesLoader;
+import com.ameriprise.utilities.rulesengine.rules.models.*;
 
 @Component
 public class RulesValidationRunner {
@@ -40,15 +39,52 @@ public class RulesValidationRunner {
         tests.getFeatures().stream()
             .map(test -> validateRules(test, rules))
             .flatMap(listCompletableFuture -> listCompletableFuture.join().stream())
-            .filter(ruleEvaluationResult -> !ruleEvaluationResult.hasMatch())
             .collect(Collectors.toList());
 
     // check for failures
-    testResults.stream()
-        .forEach(result -> LOG.warn("Expected matching results for rules {}", testResults));
-
-    if (isNotEmpty(testResults)) {
+    List<RuleEvaluationResult> failedTests =
+        testResults.stream()
+            .filter(ruleEvaluationResult -> !ruleEvaluationResult.hasMatch())
+            .collect(Collectors.toList());
+    if (isNotEmpty(failedTests)) {
+      failedTests.forEach(
+          result ->
+              LOG.error(
+                  "Expected matching results for feature {}, but found none.",
+                  result.getFeature()));
       throw new RuntimeException("Business rule tests failed!");
+    }
+
+    // check for coverage
+    List<String> positiveMatches =
+        getMatchedFeatures(testResults).stream()
+            .map(EvaluationCondition::getEquals)
+            .collect(Collectors.toList());
+    List<String> missingPositiveTests =
+        rules.getFeatures().stream()
+            .map(Feature::getName)
+            .filter(featureName -> !positiveMatches.contains(featureName))
+            .collect(Collectors.toList());
+
+    if (isNotEmpty(missingPositiveTests)) {
+      LOG.error("Missing positive tests for features: {}", missingPositiveTests);
+      throw new RuntimeException("Coverage not adequate. Missing positive tests!");
+    }
+
+    List<String> negativeMatches =
+        getMatchedFeatures(testResults).stream()
+            .map(EvaluationCondition::getNotEquals)
+            .collect(Collectors.toList());
+
+    List<String> missingNegativeTests =
+        rules.getFeatures().stream()
+            .map(Feature::getName)
+            .filter(featureName -> !negativeMatches.contains(featureName))
+            .collect(Collectors.toList());
+
+    if (isNotEmpty(missingNegativeTests)) {
+      LOG.error("Missing negative tests for features: {}", missingNegativeTests);
+      throw new RuntimeException("Coverage not adequate. Missing negative tests!");
     }
   }
 
@@ -60,5 +96,20 @@ public class RulesValidationRunner {
     userData.put("tests", tests);
     LOG.debug("Executing Test: {}", test.getName());
     return rulesEngine.executeRules(tests, userData);
+  }
+
+  private List<EvaluationCondition> getMatchedFeatures(List<RuleEvaluationResult> testResults) {
+    return testResults.stream()
+        .flatMap(
+            result ->
+                result.getMatched().stream()
+                    .map(EvaluatedParameter::getCondition)
+                    .filter(
+                        condition ->
+                            condition
+                                .getKey()
+                                .equalsIgnoreCase(
+                                    "rules-validator:rule-execution-result.feature-name")))
+        .collect(Collectors.toList());
   }
 }

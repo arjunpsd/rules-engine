@@ -5,7 +5,6 @@
 package com.ameriprise.utilities.rulesengine;
 
 import static org.apache.commons.collections4.CollectionUtils.isEmpty;
-import static org.apache.commons.collections4.CollectionUtils.isNotEmpty;
 
 import java.util.List;
 import java.util.Map;

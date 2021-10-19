@@ -4,9 +4,9 @@
  */
 package com.ameriprise.utilities.rulesengine.rules.models;
 
-import java.util.List;
-
 import static org.apache.commons.collections4.CollectionUtils.isNotEmpty;
+
+import java.util.List;
 
 public class RuleEvaluationResult {
   String feature;

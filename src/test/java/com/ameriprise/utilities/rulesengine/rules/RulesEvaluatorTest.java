@@ -4,20 +4,21 @@
  */
 package com.ameriprise.utilities.rulesengine.rules;
 
-import com.ameriprise.utilities.rulesengine.datasources.models.DataSet;
-import com.ameriprise.utilities.rulesengine.rules.models.EvaluationCondition;
-import com.ameriprise.utilities.rulesengine.rules.models.Parameter;
-import com.ameriprise.utilities.rulesengine.rules.models.RuleEvaluationResult;
-import com.ameriprise.utilities.rulesengine.rules.models.Rules;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.JUnit4;
+import static org.junit.Assert.*;
 
 import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
 
-import static org.junit.Assert.*;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.JUnit4;
+
+import com.ameriprise.utilities.rulesengine.datasources.models.DataSet;
+import com.ameriprise.utilities.rulesengine.rules.models.EvaluationCondition;
+import com.ameriprise.utilities.rulesengine.rules.models.Parameter;
+import com.ameriprise.utilities.rulesengine.rules.models.RuleEvaluationResult;
+import com.ameriprise.utilities.rulesengine.rules.models.Rules;
 
 @RunWith(JUnit4.class)
 public class RulesEvaluatorTest {
@@ -43,8 +44,8 @@ public class RulesEvaluatorTest {
     result.forEach(
         evalResult -> {
           assertTrue(
-                  evalResult.getReturnValue().equals("Y")
-                          || evalResult.getReturnValue().equals("true"));
+              evalResult.getReturnValue().equals("Y")
+                  || evalResult.getReturnValue().equals("true"));
           evalResult
               .getMatched()
               .forEach(

@@ -32,6 +32,11 @@
             "type": "test",
             "key": "rules-validator:rule-execution-result.returnValue",
             "equals": "Y"
+          },
+          {
+            "type": "test",
+            "key": "rules-validator:rule-execution-result.feature-name",
+            "equals": "sms_enrollment_notification"
           }
         ]
       }
@@ -54,6 +59,11 @@
           "key": "client-telephones:sms-enrollment-status",
           "dataValue": "ENROLLED",
           "dataId": "612-123-1234"
+        },
+        {
+          "key": "registration:enrollment.SCS_SITE.action-date",
+          "dataValue": "2021-01-31",
+          "dataId": null
         }
       ],
       "requirements": {
@@ -62,6 +72,121 @@
             "type": "test",
             "key": "rules-validator:rule-execution-result.returnValue",
             "equals": "null"
+          },
+          {
+            "type": "test",
+            "key": "rules-validator:rule-execution-result.feature-name",
+            "notEquals": "sms_enrollment_notification"
+          }
+        ]
+      }
+    },
+    {
+      "name": "tc03_anniversary_notification_enabled",
+      "description": "should show 15 year anniversary notification",
+      "testData": [
+        {
+          "key": "advice-insights:anniversary-milestone-number",
+          "dataValue": "10",
+          "dataId": null
+        },
+        {
+          "key": "registration:enrollment.SCS_SITE.action-date",
+          "dataValue": "2021-01-31",
+          "dataId": null
+        }
+      ],
+      "requirements": {
+        "conditions": [
+          {
+            "type": "test",
+            "key": "rules-validator:rule-execution-result.returnValue",
+            "equals": "true"
+          },
+          {
+            "type": "test",
+            "key": "rules-validator:rule-execution-result.feature-name",
+            "equals": "anniversary_notification"
+          }
+        ]
+      }
+    },
+    {
+      "name": "tc04_anniversary_notification_disabled",
+      "description": "should not show 15 year anniversary notification",
+      "testData": [
+        {
+          "key": "advice-insights:anniversary-milestone-number",
+          "dataValue": "1",
+          "dataId": null
+        },
+        {
+          "key": "registration:enrollment.SCS_SITE.action-date",
+          "dataValue": "2021-01-31",
+          "dataId": null
+        }
+      ],
+      "requirements": {
+        "conditions": [
+          {
+            "type": "test",
+            "key": "rules-validator:rule-execution-result.returnValue",
+            "equals": "null"
+          },
+          {
+            "type": "test",
+            "key": "rules-validator:rule-execution-result.feature-name",
+            "notEquals": "anniversary_notification"
+          }
+        ]
+      }
+    },
+    {
+      "name": "tc05_credit_card_offer_enabled",
+      "description": "should show credit card promotion",
+      "testData": [
+        {
+          "key": "advice-insights:credit-card-promotion",
+          "dataValue": "Y",
+          "dataId": null
+        }
+      ],
+      "requirements": {
+        "conditions": [
+          {
+            "type": "test",
+            "key": "rules-validator:rule-execution-result.returnValue",
+            "equals": "true"
+          },
+          {
+            "type": "test",
+            "key": "rules-validator:rule-execution-result.feature-name",
+            "equals": "credit_card_offer"
+          }
+        ]
+      }
+    },
+    {
+      "name": "tc06_credit_card_offer_disabled",
+      "description": "should show credit card promotion",
+      "testData": [
+        {
+          "key": "advice-insights:credit-card-promotion",
+          "dataValue": null,
+          "dataId": null
+        }
+      ],
+      "requirements": {
+        "conditions": [
+          {
+            "type": "test",
+            "key": "rules-validator:rule-execution-result.returnValue",
+            "equals": "null"
+          },
+          {
+            "type": "test",
+            "key": "rules-validator:rule-execution-result.feature-name",
+            "notEquals": "credit_card_offer"
           }
         ]
       }
