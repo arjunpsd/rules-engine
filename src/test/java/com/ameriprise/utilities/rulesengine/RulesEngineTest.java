@@ -88,7 +88,8 @@ public class RulesEngineTest extends AbstractTest {
 
     // then
     assertNotNull(result);
-    assertEquals(0, result.size());
+    assertEquals(2, result.size());
+    result.forEach(evalResult -> assertEquals("false", evalResult.getReturnValue()));
     verify(dataService, times(2)).fetchData(anyMap(), anyMap());
   }
 
@@ -105,7 +106,9 @@ public class RulesEngineTest extends AbstractTest {
 
     // then
     assertNotNull(result);
-    assertEquals(1, result.size());
+    assertEquals(2, result.size());
+    assertEquals("true", result.get(0).getReturnValue());
+    assertEquals("false", result.get(1).getReturnValue());
     assertEquals("feature1", result.get(0).getFeature());
   }
 

@@ -1,7 +1,8 @@
 dataMapping:
   jsonPaths: { \
-    'anniversary-milestone-number': '$..milestone_nbr', \
-    'credit-card-promotion': '$..promotion', \
-    'sms-enrollment-status': '$..smsEnrlCd', \
-    'enrollment.SCS_SITE.action-date': '$..capabilities[?(@.capabilityId == "SCS_SITE" && @.enrollment)].enrollment.actionDt' \
+    'advice-insights:anniversary-milestone-number': '$..milestone_nbr', \
+    'advice-insights:credit-card-promotion': '$..promotion', \
+    'client-telephones:sms-enrollment-status': '$..smsEnrlCd', \
+    'registration:enrollment.SCS_SITE.action-date': '$..capabilities[?(@.capabilityId == "SCS_SITE" && @.enrollment)].enrollment.actionDt', \
+    'account-list:account.type': '$..accountType' \
   }

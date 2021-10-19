@@ -6,16 +6,20 @@ package com.ameriprise.utilities.rulesengine.rules.models;
 
 import java.util.List;
 
+import static org.apache.commons.collections4.CollectionUtils.isNotEmpty;
+
 public class RuleEvaluationResult {
   String feature;
+  String returnValue;
   List<EvaluatedParameter> matched;
-  List<EvaluatedParameter> evaluated;
 
   public RuleEvaluationResult() {}
 
-  public RuleEvaluationResult(String feature, List<EvaluatedParameter> matched) {
+  public RuleEvaluationResult(
+      String feature, List<EvaluatedParameter> matched, String returnValue) {
     this.feature = feature;
     this.matched = matched;
+    this.returnValue = returnValue;
   }
 
   public String getFeature() {
@@ -34,24 +38,29 @@ public class RuleEvaluationResult {
     this.matched = matched;
   }
 
-  public List<EvaluatedParameter> getEvaluated() {
-    return evaluated;
+  public String getReturnValue() {
+    return returnValue;
   }
 
-  public void setEvaluated(List<EvaluatedParameter> evaluated) {
-    this.evaluated = evaluated;
+  public void setReturnValue(String returnValue) {
+    this.returnValue = returnValue;
+  }
+
+  public boolean hasMatch() {
+    return isNotEmpty(this.matched);
   }
 
   @Override
   public String toString() {
-    return "RuleEvaluationResult{"
+    return "RuleEvaluationResult {"
         + "feature='"
         + feature
         + '\''
+        + ", returnValue='"
+        + returnValue
+        + '\''
         + ", matched="
         + matched
-        + ", evaluated="
-        + evaluated
         + '}';
   }
 }

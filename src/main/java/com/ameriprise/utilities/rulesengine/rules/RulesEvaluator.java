@@ -4,19 +4,19 @@
  */
 package com.ameriprise.utilities.rulesengine.rules;
 
+import com.ameriprise.utilities.rulesengine.datasources.models.DataSet;
+import com.ameriprise.utilities.rulesengine.rules.models.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+
 import static com.ameriprise.utilities.rulesengine.rules.Matchers.*;
 import static java.util.Objects.nonNull;
 import static java.util.Objects.requireNonNull;
 import static org.apache.commons.collections4.CollectionUtils.isEmpty;
-
-import java.util.List;
-import java.util.stream.Collectors;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import com.ameriprise.utilities.rulesengine.datasources.models.DataSet;
-import com.ameriprise.utilities.rulesengine.rules.models.*;
 
 public class RulesEvaluator {
 
@@ -40,13 +40,18 @@ public class RulesEvaluator {
   public List<RuleEvaluationResult> evaluate() {
     requireNonNull(rules, "Rules cannot be null");
     requireNonNull(dataSet, "data set cannot be null");
-    return rules.getFeatures().stream()
-        .filter(this::evaluateFeature)
-        .map(feature -> new RuleEvaluationResult(feature.getName(), toMatchResult(feature)))
-        .collect(Collectors.toList());
+    return rules.getFeatures().stream().map(this::evaluateFeature).collect(Collectors.toList());
   }
 
-  private boolean evaluateFeature(Feature feature) {
+  private RuleEvaluationResult evaluateFeature(Feature feature) {
+    return isEvaluationPositive(feature)
+        ? new RuleEvaluationResult(
+            feature.getName(), toMatchResult(feature), getReturnValue(feature, true))
+        : new RuleEvaluationResult(
+            feature.getName(), new ArrayList<>(), getReturnValue(feature, false));
+  }
+
+  private boolean isEvaluationPositive(Feature feature) {
     // TODO: assume all conditions must match. ie requirement.options.combination = AND
     return getConditionsToEvaluate(feature.getRequirements()).stream()
         .allMatch(this::evaluateCondition);
@@ -128,6 +133,27 @@ public class RulesEvaluator {
     return dataSet.getParameters(condition.getKey()).stream()
         .filter(parameter -> isMatch(condition, parameter))
         .collect(Collectors.toList());
+  }
+
+  /**
+   * Gets return value when there is a positive match
+   *
+   * @param feature
+   * @return
+   */
+  private String getReturnValue(Feature feature, boolean isPositive) {
+    List<Action> actions = feature.getActions();
+    final String RETURN_TYPE = "return";
+
+    if (isEmpty(actions)) {
+      return Boolean.toString(isPositive);
+    }
+
+    return actions.stream()
+        .filter(action -> action.getType().equalsIgnoreCase(RETURN_TYPE))
+        .map(action -> isPositive ? action.getValue() : action.getDefaultValue())
+        .findAny()
+        .orElse(Boolean.toString(isPositive));
   }
 
   public enum Options {

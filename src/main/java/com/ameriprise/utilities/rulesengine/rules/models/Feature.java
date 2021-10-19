@@ -9,6 +9,7 @@ import java.util.List;
 public class Feature {
   String name;
   Requirements requirements;
+  List<Action> actions;
   List<Parameter> testData;
 
   public Feature() {}
@@ -40,6 +41,14 @@ public class Feature {
 
   public void setTestData(List<Parameter> testData) {
     this.testData = testData;
+  }
+
+  public List<Action> getActions() {
+    return actions;
+  }
+
+  public void setActions(List<Action> actions) {
+    this.actions = actions;
   }
 
   @Override

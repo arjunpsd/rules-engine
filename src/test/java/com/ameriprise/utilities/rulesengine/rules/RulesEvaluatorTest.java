@@ -4,33 +4,33 @@
  */
 package com.ameriprise.utilities.rulesengine.rules;
 
-import static org.junit.Assert.*;
-
-import java.time.LocalDate;
-import java.util.Arrays;
-import java.util.List;
-
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.JUnit4;
-
 import com.ameriprise.utilities.rulesengine.datasources.models.DataSet;
 import com.ameriprise.utilities.rulesengine.rules.models.EvaluationCondition;
 import com.ameriprise.utilities.rulesengine.rules.models.Parameter;
 import com.ameriprise.utilities.rulesengine.rules.models.RuleEvaluationResult;
 import com.ameriprise.utilities.rulesengine.rules.models.Rules;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.JUnit4;
+
+import java.time.LocalDate;
+import java.util.Arrays;
+import java.util.List;
+
+import static org.junit.Assert.*;
 
 @RunWith(JUnit4.class)
 public class RulesEvaluatorTest {
 
   @Test
-  public void testEvaluate() {
+  public void testEvaluate_AllPositive() {
 
     // given
     DataSet dataSet = new DataSet();
     addMockTelephoneData(dataSet);
     addMockRegistrationData(dataSet);
     addMockAnniversaryData(dataSet);
+    addMockCreditCardData(dataSet);
     RulesEvaluator rulesEvaluator = new RulesEvaluator(dataSet, mockRules());
 
     // when
@@ -39,17 +39,43 @@ public class RulesEvaluatorTest {
     // then
     assertNotNull(result);
     assertEquals(3, result.size());
-    result.stream()
-        .allMatch(
-            evalResult -> {
-              evalResult.getMatched().stream()
-                  .forEach(
-                      matchResult -> {
-                        assertNotNull(matchResult.getCondition().getKey());
-                        assertTrue(matchResult.getParameters().size() > 0);
-                      });
-              return true;
-            });
+
+    result.forEach(
+        evalResult -> {
+          assertTrue(
+                  evalResult.getReturnValue().equals("Y")
+                          || evalResult.getReturnValue().equals("true"));
+          evalResult
+              .getMatched()
+              .forEach(
+                  matchResult -> {
+                    assertNotNull(matchResult.getCondition().getKey());
+                    assertTrue(matchResult.getParameters().size() > 0);
+                  });
+        });
+  }
+
+  @Test
+  public void testEvaluate_AllNegative() {
+
+    // given
+    DataSet dataSet = new DataSet();
+    RulesEvaluator rulesEvaluator = new RulesEvaluator(dataSet, mockRules());
+
+    // when
+    List<RuleEvaluationResult> result = rulesEvaluator.evaluate();
+
+    // then
+    assertNotNull(result);
+    assertEquals(3, result.size());
+
+    result.forEach(
+        evalResult -> {
+          assertTrue(
+              evalResult.getReturnValue().equals("N")
+                  || evalResult.getReturnValue().equals("false"));
+          assertEquals(0, evalResult.getMatched().size());
+        });
   }
 
   @Test
@@ -335,6 +361,10 @@ public class RulesEvaluatorTest {
 
   private void addMockAnniversaryData(DataSet dataSet) {
     dataSet.addParameter(new Parameter("advice-insights:anniversary-milestone-number", "15"));
+  }
+
+  private void addMockCreditCardData(DataSet dataSet) {
+    dataSet.addParameter(new Parameter("advice-insights:credit-card-promotion", "Y"));
   }
 
   private Rules mockRules() {

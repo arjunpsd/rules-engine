@@ -91,7 +91,7 @@ public class RulesEngine {
     return feature ->
         isEmpty(feature.getRequirements().getPreConditions())
             || preEvalResult.stream()
-                .filter(result -> isNotEmpty(result.getMatched()))
+                .filter(RuleEvaluationResult::hasMatch)
                 .map(RuleEvaluationResult::getFeature)
                 .anyMatch(matched -> matched.equalsIgnoreCase(feature.getName()));
   }

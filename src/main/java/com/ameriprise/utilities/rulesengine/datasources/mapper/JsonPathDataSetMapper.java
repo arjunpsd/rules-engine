@@ -47,7 +47,7 @@ public class JsonPathDataSetMapper implements DataSetMapper {
         paramKeys.stream()
             .flatMap(
                 key -> {
-                  List<String> values = jsonDoc.read(jsonPaths.get(key.getName()));
+                  List<String> values = jsonDoc.read(jsonPaths.get(key.toString()));
                   if (isNotEmpty(values)) {
                     return values.stream().map(value -> new Parameter(key, value));
                   }

@@ -31,13 +31,21 @@
             "withinDays": 1500
           }
         ]
-      }
+      },
+      "actions": [
+        {
+          "type": "return",
+          "key": "sms_enrollment_notification",
+          "value": "Y",
+          "defaultValue": "N"
+        }
+      ]
     },
     {
       "name": "anniversary_notification",
       "description": "rule to evaluate anniversary notification is applicable",
       "requirements": {
-        "values": [
+        "conditions": [
           {
             "type": "data",
             "key": "advice-insights:anniversary-milestone-number",
@@ -62,7 +70,7 @@
         "options": {
           "combination": "AND"
         },
-        "values": [
+        "conditions": [
           {
             "type": "data",
             "key": "advice-insights:credit-card-promotion",

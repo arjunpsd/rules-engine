@@ -2,8 +2,9 @@
  * Copyright 2021 Ameriprise Financial, Inc. All rights reserved. Proprietary and Confidential. Use
  * is subject to license terms.
  */
-package com.ameriprise.utilities.rulesengine;
+package com.ameriprise.utilities.rulesengine.validation;
 
+import com.ameriprise.utilities.rulesengine.AbstractTest;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;

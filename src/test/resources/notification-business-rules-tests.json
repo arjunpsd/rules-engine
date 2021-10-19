@@ -30,13 +30,8 @@
         "conditions": [
           {
             "type": "test",
-            "key": "rules-validator:rule-execution-feature.name",
-            "equals": "sms_enrollment_notification"
-          },
-          {
-            "type": "test",
-            "key": "rules-validator:rule-execution-result.feature",
-            "contains": "sms_enrollment_notification"
+            "key": "rules-validator:rule-execution-result.returnValue",
+            "equals": "Y"
           }
         ]
       }
@@ -65,13 +60,8 @@
         "conditions": [
           {
             "type": "test",
-            "key": "rules-validator:rule-execution-feature.name",
-            "equals": "sms_enrollment_notification"
-          },
-          {
-            "type": "test",
-            "key": "rules-validator:rule-execution-result.feature",
-            "notContains": "sms_enrollment_notification"
+            "key": "rules-validator:rule-execution-result.returnValue",
+            "equals": "null"
           }
         ]
       }

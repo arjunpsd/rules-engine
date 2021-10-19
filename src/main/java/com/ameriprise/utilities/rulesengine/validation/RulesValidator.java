@@ -8,6 +8,7 @@ import static org.apache.commons.collections4.CollectionUtils.isNotEmpty;
 
 import java.util.concurrent.CompletableFuture;
 
+import com.ameriprise.utilities.rulesengine.rules.models.RuleEvaluationResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
@@ -39,12 +40,12 @@ public class RulesValidator implements DataSourceAdaptor {
         .thenApply(
             results ->
                 results.stream()
-                    .filter(result -> isNotEmpty(result.getMatched()))
+                    .filter(RuleEvaluationResult::hasMatch)
                     .map(
                         result ->
                             new Parameter(
-                                "rules-validator:rule-execution-result.feature",
-                                result.getFeature()))
+                                "rules-validator:rule-execution-result.returnValue",
+                                result.getReturnValue()))
                     .collect(DataSet::new, DataSet::addParameter, (d1, d2) -> {}));
   }
 }
