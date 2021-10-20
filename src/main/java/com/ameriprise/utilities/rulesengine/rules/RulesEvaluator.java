@@ -108,6 +108,10 @@ public class RulesEvaluator {
       return contains(condition.getContains(), parameter);
     } else if (nonNull(condition.getNotContains())) {
       return notContains(condition.getNotContains(), parameter);
+    } else if (nonNull(condition.getAfter())) {
+      return isAfter(condition.getAfter(), parameter);
+    } else if (nonNull(condition.getBefore())) {
+      return isBefore(condition.getBefore(), parameter);
     } else if (condition.getWithinDays() > 0) {
       return isWithinDays(condition.getWithinDays(), parameter);
     } else if (condition.getBeyondDays() > 0) {

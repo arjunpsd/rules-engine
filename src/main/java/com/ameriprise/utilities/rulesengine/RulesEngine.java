@@ -24,6 +24,7 @@ import com.ameriprise.utilities.rulesengine.rules.RulesEvaluator;
 import com.ameriprise.utilities.rulesengine.rules.RulesLoader;
 import com.ameriprise.utilities.rulesengine.rules.models.*;
 
+/** Entry Point for executing the Rules Engine. */
 @Component
 public class RulesEngine {
 
@@ -39,12 +40,28 @@ public class RulesEngine {
     this.rulesLoader = rulesLoader;
   }
 
+  /**
+   * Loads & evaluates rules from the given file.
+   *
+   * @param ruleSetName - name of the file containing the rules to be evaluated
+   * @param userData - contextual data that is passed to `DataAdapter`s, which are plugin components
+   *     (spring beans) used to fetch data for evaluating rules.
+   * @return
+   */
   public CompletableFuture<List<RuleEvaluationResult>> executeRules(
       String ruleSetName, Map<?, ?> userData) {
     final Rules rules = rulesLoader.load(ruleSetName);
     return executeRules(rules, userData);
   }
 
+  /**
+   * Evaluates the given business rules. Intended to be used if business rules are created
+   * programmatically instead of the rules-engine DSL
+   *
+   * @param rules
+   * @param userData
+   * @return
+   */
   public CompletableFuture<List<RuleEvaluationResult>> executeRules(
       final Rules rules, Map<?, ?> userData) {
     return fetchDataAndEvaluateRules(rules, userData, RulesEvaluator.Options.PRE_CONDITIONS_ONLY)

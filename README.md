@@ -66,7 +66,7 @@ The following table describes properties that can be used to define _conditions_
 | Property | Description |
 | --- | --- |
 | type | Required. Should always be `data`. Indicates condition is evaluated using data that fetched by the rules engine. |
-| key | Required. Identifier or name for the property in a `DataSet` that contains data-value to be used for evaluating the rule. |
+| key | Required. Identifier or name for the property in a `DataSet` that contains data-value to be used for evaluating the rule. Key is a _tuple_ that contains a data source name and a property name separated by ':'|
 | \<matcher\> | Required. An operator used to match/compare the data-value with a given value. | 
 
 The following table describes all `matchers` that are currently implemented:
@@ -81,3 +81,93 @@ The following table describes all `matchers` that are currently implemented:
 | beyondDays | Number | Checks if the date in data-value is outside +/-N days from current date-time, where N is the number of days provided in the rule |
 | contains | String | Performs a substring match (case-sensitive) of the given value within the data-value|
 | notContains | String | Inverse of `contains`|
+| after | Date | Checks if the fetched date is after the given date. Both dates must be in ISO8601 date-time format. |
+| before | Date | Checks if the fetched date is before the given date. Both dates must be in ISO8601 date-time format. |
+
+## Rules Engine API
+
+### Executing Rules
+
+The entry point for executing the rules engine is the `executeRules` method of `RulesEngine` class. The signature of the
+method is as follows:
+
+```java
+public class RulesEngine {
+    public CompletableFuture<List<RuleEvaluationResult>> executeRules(
+            String ruleSetName, Map<?, ?> userData) {
+    }
+}
+```
+
+The first parameter is the name of the rule-set file containing the business rules (JSON), while the second parameter is
+a map containing contextual data that may be used by `DataAdapters` when fetching data for evaluating the rules.
+
+Currently, rule-set file can only be loaded from classpath. The `ruleSetName` parameter should contain the name of the
+rule-set json file (without .json extension) at the root of classpath. For example, the following statement would load
+and execute rules in a file named `/user-notification-rules.json` at the root of current classpath
+
+```java
+ rulesEngine.executeRules("user-notification-rules",userData)
+        .thenAccept(evaluationResult->{
+        //do something with the result
+        });
+```
+
+### Data Source Adapters
+
+Evaluating rules generally requires external data to be fetched at runtime. Data Source Adapters are java classes (
+annotated as spring-beans) that are responsible for fetching the data from external sources and shaping them
+into `DataSets` that can be easily consumed by the rules engine for evaluation of the rule. All Data Source Adapters
+must implement `DataSourceAdapter` interface and its `fetch` method.
+
+```java
+public interface DataSourceAdaptor {
+    CompletableFuture<DataSet> fetch(DataFetchingContext dfe);
+}
+```
+
+A couple of sample data source adapters are provided in the rules engine library source for reference. Additionally, you
+may also use a utility class (`JsonPathDataSetMapper`) that can easily convert JSON data into `DataSet` objects using
+_JsonPath_. See `AdviceInsightsDataSourceAdapter` class for usage.
+
+### Mapping Parameters/Keys in Rules to Data Source Adapters
+
+For every parameter/key referenced within a condition or pre-condition in the business rules file, there must be at
+least one `DataSourceAdapter` class annotated with the data source name (first part of the key separated by ':''). In
+the following example for a key in business rule condition, 'advice-insights' is the name of the data source adapter
+bean, while '
+anniversary-milestone-number' is the data attribute that is fetched by the adapter and returned within a `DataSet`
+
+```json
+{
+  "key": "advice-insights:anniversary-milestone-number"
+}
+```
+
+### Interpreting Results of Rule Evaluation
+
+The `executeRules` method returns a `CompletableFuture`, which on completion, returns a collection
+of `RuleEvaluationResult` for each rule that is evaluated. Note - A rule will not be evaluated if its pre-conditions are
+not met, and therefore will not return a corresponding `RuleEvaluationResult`. In other words, the count of evaluation
+result objects may not always match the count of rules in the rule-set file.
+
+RuleEvaluationResult contains the following properties
+
+| Property Name | Data Type | Description |
+| --- | --- | --- |
+| feature | String |Name of business feature that was evaluated. |
+| returnValue | String | By default, contains `true` if the rule evaluation resulted in positive outcome and `false` if the result evaluation resulted in a negative outcome. The value can be overriden using an `Action` in the rules engine DSL|
+| matched | List | Collection of evaluated conditions and the data-values that resulted in positive outcome (aka match). Will be empty if evaluation resulted in negative outcome. |
+
+### Validating Business Rules
+
+Business rules can be validated using tests that are also written using the same DSL. To run the tests, call
+the `validateRules` method of `RulesValidationRunner` class, passing in the name of the business rules file to validate.
+By convention, test file should also have the same name as the business rules file, but with suffix `-tests`
+
+```java
+    testRunner.validateRules("user-notification-rules");
+```
+
+Test files are also loaded using the same process as the business rules file under test (ie from classpath). For
+reference, see sample test file - `notification-business-rules-tests.json`

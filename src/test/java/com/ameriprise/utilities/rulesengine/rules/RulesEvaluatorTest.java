@@ -7,6 +7,8 @@ package com.ameriprise.utilities.rulesengine.rules;
 import static org.junit.Assert.*;
 
 import java.time.LocalDate;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.List;
 
@@ -347,6 +349,74 @@ public class RulesEvaluatorTest {
     assertFalse(result);
   }
 
+  @Test
+  public void testEvaluateCondition_MatchAfter_Positive() {
+    // given
+    DataSet dataSet = new DataSet();
+    addMockSystemData(dataSet);
+    RulesEvaluator engine = new RulesEvaluator(dataSet, new Rules());
+
+    EvaluationCondition condition = new EvaluationCondition("system-data:date-time");
+    condition.setAfter("2021-01-31T00:00:00Z");
+
+    // when
+    boolean result = engine.evaluateCondition(condition);
+
+    // then
+    assertTrue(result);
+  }
+
+  @Test
+  public void testEvaluateCondition_MatchAfter_Negative() {
+    // given
+    DataSet dataSet = new DataSet();
+    addMockSystemData(dataSet);
+    RulesEvaluator engine = new RulesEvaluator(dataSet, new Rules());
+
+    EvaluationCondition condition = new EvaluationCondition("system-data:date-time");
+    condition.setAfter("2045-01-31T00:00:00Z");
+
+    // when
+    boolean result = engine.evaluateCondition(condition);
+
+    // then
+    assertFalse(result);
+  }
+
+  @Test
+  public void testEvaluateCondition_MatchBefore_Positive() {
+    // given
+    DataSet dataSet = new DataSet();
+    addMockSystemData(dataSet);
+    RulesEvaluator engine = new RulesEvaluator(dataSet, new Rules());
+
+    EvaluationCondition condition = new EvaluationCondition("system-data:date-time");
+    condition.setBefore("2045-01-31T00:00:00Z");
+
+    // when
+    boolean result = engine.evaluateCondition(condition);
+
+    // then
+    assertTrue(result);
+  }
+
+  @Test
+  public void testEvaluateCondition_MatchBefore_Negative() {
+    // given
+    DataSet dataSet = new DataSet();
+    addMockSystemData(dataSet);
+    RulesEvaluator engine = new RulesEvaluator(dataSet, new Rules());
+
+    EvaluationCondition condition = new EvaluationCondition("system-data:date-time");
+    condition.setBefore("2021-01-31T00:00:00Z");
+
+    // when
+    boolean result = engine.evaluateCondition(condition);
+
+    // then
+    assertFalse(result);
+  }
+
   private void addMockTelephoneData(DataSet dataSet) {
     dataSet.addParameter(new Parameter("client-telephones:sms-enrollment-status", "UNENROLLED"));
     dataSet.addParameter(new Parameter("client-telephones:sms-enrollment-status", "UNENROLLED"));
@@ -366,6 +436,13 @@ public class RulesEvaluatorTest {
 
   private void addMockCreditCardData(DataSet dataSet) {
     dataSet.addParameter(new Parameter("advice-insights:credit-card-promotion", "Y"));
+  }
+
+  private void addMockSystemData(DataSet dataSet) {
+    dataSet.addParameter(
+        new Parameter(
+            "system-data:date-time",
+            ZonedDateTime.now().format(DateTimeFormatter.ISO_OFFSET_DATE_TIME)));
   }
 
   private Rules mockRules() {

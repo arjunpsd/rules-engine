@@ -22,6 +22,11 @@ import com.ameriprise.utilities.rulesengine.RulesEngine;
 import com.ameriprise.utilities.rulesengine.rules.RulesLoader;
 import com.ameriprise.utilities.rulesengine.rules.models.*;
 
+/**
+ * A test runner that takes in a set of business rules, corresponding tests and validates the
+ * business rules using those tests. The test cases themselves are written using business rules DSL
+ * and therefore can be executed using the RulesEngine
+ */
 @Component
 public class RulesValidationRunner {
 
@@ -31,17 +36,55 @@ public class RulesValidationRunner {
 
   private static final Logger LOG = LoggerFactory.getLogger(RulesValidationRunner.class);
 
+  /**
+   * Validates the rules given in the business rules file json. Test rules should have the same name
+   * as the business rules file, but with a suffix of `-test`
+   *
+   * @param ruleSetName
+   */
   public void validateRules(String ruleSetName) {
     final Rules rules = rulesLoader.load(ruleSetName);
     final Rules tests = rulesLoader.load(ruleSetName + "-tests");
 
+    // execute the test using rules engine
     List<RuleEvaluationResult> testResults =
         tests.getFeatures().stream()
             .map(test -> validateRules(test, rules))
             .flatMap(listCompletableFuture -> listCompletableFuture.join().stream())
             .collect(Collectors.toList());
 
-    // check for failures
+    assertTestsHavePassed(testResults);
+
+    assertTestsHaveCoverage(rules, testResults);
+  }
+
+  /**
+   * Execute the test using the Rules Engine
+   *
+   * @param test
+   * @param rulesToValidate
+   * @return
+   */
+  private CompletableFuture<List<RuleEvaluationResult>> validateRules(
+      Feature test, Rules rulesToValidate) {
+
+    // rules to be tested are passed as userData
+    Map<String, Rules> userData = new HashMap<>();
+    userData.put("rules", rulesToValidate);
+
+    Rules tests = new Rules(Collections.singletonList(test));
+    userData.put("tests", tests);
+
+    LOG.info("Executing Test: {}", test.getName());
+    return rulesEngine.executeRules(tests, userData);
+  }
+
+  /**
+   * Asserts that there are no failed tests.
+   *
+   * @param testResults
+   */
+  private void assertTestsHavePassed(List<RuleEvaluationResult> testResults) {
     List<RuleEvaluationResult> failedTests =
         testResults.stream()
             .filter(ruleEvaluationResult -> !ruleEvaluationResult.hasMatch())
@@ -54,8 +97,16 @@ public class RulesValidationRunner {
                   result.getFeature()));
       throw new RuntimeException("Business rule tests failed!");
     }
+  }
 
-    // check for coverage
+  /**
+   * Asserts that there is at least one positive and negative test per feature in the business rule
+   *
+   * @param rules
+   * @param testResults
+   */
+  private void assertTestsHaveCoverage(Rules rules, List<RuleEvaluationResult> testResults) {
+
     List<String> positiveMatches =
         getMatchedFeatures(testResults).stream()
             .map(EvaluationCondition::getEquals)
@@ -86,16 +137,6 @@ public class RulesValidationRunner {
       LOG.error("Missing negative tests for features: {}", missingNegativeTests);
       throw new RuntimeException("Coverage not adequate. Missing negative tests!");
     }
-  }
-
-  private CompletableFuture<List<RuleEvaluationResult>> validateRules(
-      Feature test, Rules rulesToValidate) {
-    Rules tests = new Rules(Collections.singletonList(test));
-    Map<String, Rules> userData = new HashMap<>();
-    userData.put("rules", rulesToValidate);
-    userData.put("tests", tests);
-    LOG.debug("Executing Test: {}", test.getName());
-    return rulesEngine.executeRules(tests, userData);
   }
 
   private List<EvaluationCondition> getMatchedFeatures(List<RuleEvaluationResult> testResults) {

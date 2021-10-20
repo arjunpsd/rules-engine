@@ -7,6 +7,7 @@ package com.ameriprise.utilities.rulesengine.rules;
 import static java.util.Objects.isNull;
 
 import java.time.LocalDate;
+import java.time.ZonedDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
 
@@ -53,11 +54,27 @@ public class Matchers {
     return !getValue(parameter).contains(option);
   }
 
+  public static boolean isAfter(final String givenDate, final Parameter parameter) {
+    ZonedDateTime dateValue = getValue(parameter, ZonedDateTime.now());
+    return dateValue.isAfter(ZonedDateTime.parse(givenDate));
+  }
+
+  public static boolean isBefore(final String givenDate, final Parameter parameter) {
+    ZonedDateTime dateValue = getValue(parameter, ZonedDateTime.now().plusYears(100));
+    return dateValue.isBefore(ZonedDateTime.parse(givenDate));
+  }
+
   private static String getValue(Parameter parameter) {
     return getValue(parameter, "null");
   }
 
   private static String getValue(Parameter parameter, String valueIfNull) {
     return isNull(parameter.getDataValue()) ? valueIfNull : parameter.getDataValue().toLowerCase();
+  }
+
+  private static ZonedDateTime getValue(Parameter parameter, ZonedDateTime valueIfNull) {
+    return isNull(parameter.getDataValue())
+        ? valueIfNull
+        : ZonedDateTime.parse(parameter.getDataValue());
   }
 }
