@@ -16,8 +16,8 @@ import com.ameriprise.utilities.rulesengine.datasources.models.DataSet;
 import com.ameriprise.utilities.rulesengine.rules.models.Parameter;
 import com.ameriprise.utilities.rulesengine.rules.models.ParameterKey;
 
-@Component("system-data")
-public class SystemDataSourceAdapter implements DataSourceAdaptor {
+@Component("rules-engine-system-data")
+public class SystemDataSourceAdaptor implements DataSourceAdaptor {
 
   @Override
   public CompletableFuture<DataSet> fetch(DataFetchingContext dfe) {

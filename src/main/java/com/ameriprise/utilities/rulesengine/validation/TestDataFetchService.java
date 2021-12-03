@@ -16,7 +16,7 @@ import com.ameriprise.utilities.rulesengine.datasources.models.DataSet;
 import com.ameriprise.utilities.rulesengine.rules.models.Parameter;
 import com.ameriprise.utilities.rulesengine.rules.models.Rules;
 
-/** This is a mock data source adapter to be used when executing business rules during testing. */
+/** This is a mock data source adaptor to be used when executing business rules during testing. */
 @Component
 public class TestDataFetchService extends DataFetchService implements DataSourceAdaptor {
 

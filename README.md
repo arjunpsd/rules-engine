@@ -100,7 +100,7 @@ public class RulesEngine {
 ```
 
 The first parameter is the name of the rule-set file containing the business rules (JSON), while the second parameter is
-a map containing contextual data that may be used by `DataAdapters` when fetching data for evaluating the rules.
+a map containing contextual data that may be used by `DataAdaptors` when fetching data for evaluating the rules.
 
 Currently, rule-set file can only be loaded from classpath. The `ruleSetName` parameter should contain the name of the
 rule-set json file (without .json extension) at the root of classpath. For example, the following statement would load
@@ -113,12 +113,12 @@ and execute rules in a file named `/user-notification-rules.json` at the root of
         });
 ```
 
-### Data Source Adapters
+### Data Source Adaptors
 
-Evaluating rules generally requires external data to be fetched at runtime. Data Source Adapters are java classes (
+Evaluating rules generally requires external data to be fetched at runtime. Data Source Adaptors are java classes (
 annotated as spring-beans) that are responsible for fetching the data from external sources and shaping them
-into `DataSets` that can be easily consumed by the rules engine for evaluation of the rule. All Data Source Adapters
-must implement `DataSourceAdapter` interface and its `fetch` method.
+into `DataSets` that can be easily consumed by the rules engine for evaluation of the rule. All Data Source Adaptors
+must implement `DataSourceAdaptor` interface and its `fetch` method.
 
 ```java
 public interface DataSourceAdaptor {
@@ -126,17 +126,17 @@ public interface DataSourceAdaptor {
 }
 ```
 
-A couple of sample data source adapters are provided in the rules engine library source for reference. Additionally, you
+A couple of sample data source adaptors are provided in the rules engine library source for reference. Additionally, you
 may also use a utility class (`JsonPathDataSetMapper`) that can easily convert JSON data into `DataSet` objects using
-_JsonPath_. See `AdviceInsightsDataSourceAdapter` class for usage.
+_JsonPath_. See `AdviceInsightsDataSourceAdaptor` class for usage.
 
-### Mapping Parameters/Keys in Rules to Data Source Adapters
+### Mapping Parameters/Keys in Rules to Data Source adaptors
 
 For every parameter/key referenced within a condition or pre-condition in the business rules file, there must be at
-least one `DataSourceAdapter` class annotated with the data source name (first part of the key separated by ':''). In
-the following example for a key in business rule condition, 'advice-insights' is the name of the data source adapter
+least one `DataSourceAdaptor` class annotated with the data source name (first part of the key separated by ':''). In
+the following example for a key in business rule condition, 'advice-insights' is the name of the data source adaptor
 bean, while '
-anniversary-milestone-number' is the data attribute that is fetched by the adapter and returned within a `DataSet`
+anniversary-milestone-number' is the data attribute that is fetched by the adaptor and returned within a `DataSet`
 
 ```json
 {

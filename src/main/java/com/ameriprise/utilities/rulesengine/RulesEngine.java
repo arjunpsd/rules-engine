@@ -44,7 +44,7 @@ public class RulesEngine {
    * Loads & evaluates rules from the given file.
    *
    * @param ruleSetName - name of the file containing the rules to be evaluated
-   * @param userData - contextual data that is passed to `DataAdapter`s, which are plugin components
+   * @param userData - contextual data that is passed to `DataAdaptor`s, which are plugin components
    *     (spring beans) used to fetch data for evaluating rules.
    * @return
    */
