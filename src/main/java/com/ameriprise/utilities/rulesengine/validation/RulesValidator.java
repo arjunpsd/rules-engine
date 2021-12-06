@@ -27,7 +27,7 @@ import com.ameriprise.utilities.rulesengine.rules.models.Rules;
  * Class intended for testing a set of business rules using the rules engine. Executes the business
  * rules using mock data and returns the result of execution as a data set.
  */
-@Component("rules-validator")
+@Component("rules-validator-data-source-adaptor")
 public class RulesValidator implements DataSourceAdaptor {
 
   private RulesEngine rulesEngine;

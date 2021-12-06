@@ -16,7 +16,7 @@ import com.ameriprise.utilities.rulesengine.datasources.mapper.DataSetMapper;
 import com.ameriprise.utilities.rulesengine.datasources.models.DataFetchingContext;
 import com.ameriprise.utilities.rulesengine.datasources.models.DataSet;
 
-@Component("registration")
+@Component("registration-data-source-adaptor")
 public class RegistrationDataSourceAdaptor implements DataSourceAdaptor {
 
   @Autowired DataSetMapper dataSetMapper;

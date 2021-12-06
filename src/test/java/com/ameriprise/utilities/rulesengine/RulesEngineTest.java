@@ -4,6 +4,7 @@
  */
 package com.ameriprise.utilities.rulesengine;
 
+import static java.util.Objects.nonNull;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.mockito.ArgumentMatchers.anyMap;
@@ -21,6 +22,7 @@ import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
 import com.ameriprise.utilities.rulesengine.datasources.DataFetchService;
+import com.ameriprise.utilities.rulesengine.datasources.models.DataFetchResult;
 import com.ameriprise.utilities.rulesengine.datasources.models.DataSet;
 import com.ameriprise.utilities.rulesengine.rules.RulesEvaluator;
 import com.ameriprise.utilities.rulesengine.rules.RulesLoader;
@@ -143,6 +145,39 @@ public class RulesEngineTest extends AbstractTest {
     assertEquals(1, result.get("ds1").size());
   }
 
+  @Test
+  public void testGetFeaturesWithErrors() {
+
+    // given
+    Rules rules = mockedRules();
+    DataFetchResult dataFetchResult =
+        mockDataSet("p-one", "c-two", "c-three", new RuntimeException());
+
+    // when
+    List<Feature> result =
+        rulesEngine.getFeaturesWithErrors(
+            rules, dataFetchResult, RulesEvaluator.Options.CONDITIONS_ONLY);
+
+    // then
+    assertEquals(1, result.size());
+  }
+
+  @Test
+  public void testEvaluateRulesWithErrors() {
+
+    // given
+    Rules rules = mockedRules();
+    DataFetchResult dataFetchResult =
+        mockDataSet("p-one", "c-two", "c-three", new RuntimeException());
+
+    // when
+    List<RuleEvaluationResult> result =
+        rulesEngine.evaluateRules(dataFetchResult, rules, RulesEvaluator.Options.CONDITIONS_ONLY);
+
+    // then
+    assertEquals(1, result.size());
+  }
+
   private Rules mockedRules() {
 
     EvaluationCondition preCondition1 = new EvaluationCondition();
@@ -171,11 +206,19 @@ public class RulesEngineTest extends AbstractTest {
     return new Rules(Arrays.asList(feature1, feature2));
   }
 
-  private DataSet mockDataSet(String attr1, String attr2, String attr3) {
+  private DataFetchResult mockDataSet(String attr1, String attr2, String attr3) {
+    return mockDataSet(attr1, attr2, attr3, null);
+  }
+
+  private DataFetchResult mockDataSet(String attr1, String attr2, String attr3, Throwable t) {
     DataSet dataSet = new DataSet();
     dataSet.addParameter(new Parameter("ds1:attribute1", attr1));
     dataSet.addParameter(new Parameter("ds2:attribute2", attr2));
-    dataSet.addParameter(new Parameter("ds3:attribute3", attr3));
-    return dataSet;
+    if (nonNull(t)) {
+      return new DataFetchResult.Builder().addDataSet(dataSet).addException("ds3", t).build();
+    } else {
+      dataSet.addParameter(new Parameter("ds3:attribute3", attr3));
+      return new DataFetchResult.Builder().addDataSet(dataSet).build();
+    }
   }
 }

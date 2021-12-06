@@ -45,6 +45,16 @@ public class RulesValidationRunner {
   public void validateRules(String ruleSetName) {
     final Rules rules = rulesLoader.load(ruleSetName);
     final Rules tests = rulesLoader.load(ruleSetName + "-tests");
+    validateRules(rules, tests);
+  }
+
+  /**
+   * Runs the tests against the given rules. Throws runtime exception if tests fail.
+   *
+   * @param rules - rules to be validated
+   * @param tests - test cases for validation
+   */
+  public void validateRules(Rules rules, Rules tests) {
 
     // execute the test using rules engine
     List<RuleEvaluationResult> testResults =

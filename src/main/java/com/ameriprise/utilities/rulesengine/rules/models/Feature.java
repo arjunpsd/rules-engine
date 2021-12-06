@@ -5,6 +5,7 @@
 package com.ameriprise.utilities.rulesengine.rules.models;
 
 import java.util.List;
+import java.util.Objects;
 
 public class Feature {
   String name;
@@ -54,5 +55,18 @@ public class Feature {
   @Override
   public String toString() {
     return "Feature {" + "name='" + name + '\'' + '}';
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
+    Feature feature = (Feature) o;
+    return name.equals(feature.name);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(name);
   }
 }

@@ -16,7 +16,7 @@ import com.ameriprise.utilities.rulesengine.datasources.mapper.DataSetMapper;
 import com.ameriprise.utilities.rulesengine.datasources.models.DataFetchingContext;
 import com.ameriprise.utilities.rulesengine.datasources.models.DataSet;
 
-@Component("advice-insights")
+@Component("advice-insights-data-source-adaptor")
 public class AdviceInsightsDataSourceAdaptor implements DataSourceAdaptor {
 
   @Autowired DataSetMapper dataSetMapper;

@@ -15,7 +15,7 @@ import com.ameriprise.utilities.rulesengine.datasources.models.DataFetchingConte
 import com.ameriprise.utilities.rulesengine.datasources.models.DataSet;
 import com.ameriprise.utilities.rulesengine.utils.FileUtils;
 
-@Component("client-telephones")
+@Component("client-telephones-data-source-adaptor")
 public class ClientTelephonesDataSourceAdaptor implements DataSourceAdaptor {
   @Autowired DataSetMapper dataSetMapper;
 

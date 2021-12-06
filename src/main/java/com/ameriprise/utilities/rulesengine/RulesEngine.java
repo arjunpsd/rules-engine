@@ -5,9 +5,12 @@
 package com.ameriprise.utilities.rulesengine;
 
 import static org.apache.commons.collections4.CollectionUtils.isEmpty;
+import static org.apache.commons.collections4.CollectionUtils.isNotEmpty;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
@@ -19,7 +22,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.ameriprise.utilities.rulesengine.datasources.DataFetchService;
-import com.ameriprise.utilities.rulesengine.datasources.models.DataSet;
+import com.ameriprise.utilities.rulesengine.datasources.models.DataFetchResult;
 import com.ameriprise.utilities.rulesengine.rules.RulesEvaluator;
 import com.ameriprise.utilities.rulesengine.rules.RulesLoader;
 import com.ameriprise.utilities.rulesengine.rules.models.*;
@@ -49,7 +52,7 @@ public class RulesEngine {
    * @return
    */
   public CompletableFuture<List<RuleEvaluationResult>> executeRules(
-      String ruleSetName, Map<?, ?> userData) {
+      final String ruleSetName, final Map<?, ?> userData) {
     final Rules rules = rulesLoader.load(ruleSetName);
     return executeRules(rules, userData);
   }
@@ -63,7 +66,7 @@ public class RulesEngine {
    * @return
    */
   public CompletableFuture<List<RuleEvaluationResult>> executeRules(
-      final Rules rules, Map<?, ?> userData) {
+      final Rules rules, final Map<?, ?> userData) {
     return fetchDataAndEvaluateRules(rules, userData, RulesEvaluator.Options.PRE_CONDITIONS_ONLY)
         .thenApply(preEvalResult -> filterRulesToEvaluate(rules, preEvalResult))
         .thenCompose(
@@ -77,7 +80,7 @@ public class RulesEngine {
     LOG.debug("{}: Fetching data for rules: {}", options, rulesToEvaluate.getFeatures());
     return dataService
         .fetchData(getParametersByDataSource(rulesToEvaluate, options), userData)
-        .thenApply(dataSet -> evaluateRules(dataSet, rulesToEvaluate, options));
+        .thenApply(result -> evaluateRules(result, rulesToEvaluate, options));
   }
 
   /**
@@ -103,7 +106,7 @@ public class RulesEngine {
    * @param preEvalResult
    * @return
    */
-  private Predicate<Feature> hasPreConditionSatisfied(List<RuleEvaluationResult> preEvalResult) {
+  protected Predicate<Feature> hasPreConditionSatisfied(List<RuleEvaluationResult> preEvalResult) {
     return feature ->
         isEmpty(feature.getRequirements().getPreConditions())
             || preEvalResult.stream()
@@ -129,18 +132,34 @@ public class RulesEngine {
         .collect(Collectors.groupingBy(ParameterKey::getDataSource));
   }
 
-  private Stream<EvaluationCondition> conditionsByType(
+  protected Stream<EvaluationCondition> conditionsByType(
       final Requirements requirements, final RulesEvaluator.Options options) {
     if (options == RulesEvaluator.Options.PRE_CONDITIONS_ONLY) {
       return requirements.getPreConditions().stream();
-    } else {
+    } else if (options == RulesEvaluator.Options.CONDITIONS_ONLY) {
       return requirements.getConditions().stream();
+    } else {
+      return requirements.getPostConditions().stream();
     }
   }
 
-  private List<RuleEvaluationResult> evaluateRules(
-      DataSet dataSet, Rules rules, RulesEvaluator.Options options) {
-    RulesEvaluator evaluator = new RulesEvaluator(dataSet, rules, options);
+  protected List<RuleEvaluationResult> evaluateRules(
+      final DataFetchResult dataFetchResult,
+      final Rules rules,
+      final RulesEvaluator.Options options) {
+
+    List<Feature> featuresWithErrors = getFeaturesWithErrors(rules, dataFetchResult, options);
+    List<Feature> featuresToEvaluate = new ArrayList<>(rules.getFeatures());
+    if (isNotEmpty(featuresWithErrors)) {
+      LOG.warn(
+          "The following features will not be evaluated due to errors in fetching data from data sources: {}",
+          featuresWithErrors);
+      featuresToEvaluate.removeAll(featuresWithErrors);
+      LOG.debug("Features to be evaluated: {}", featuresToEvaluate);
+    }
+
+    RulesEvaluator evaluator =
+        new RulesEvaluator(dataFetchResult.getDataSet(), new Rules(featuresToEvaluate), options);
     List<RuleEvaluationResult> ruleEvaluationResults = evaluator.evaluate();
     LOG.debug(
         "{}: Rules Evaluated: {} \nResult: {}",
@@ -148,5 +167,28 @@ public class RulesEngine {
         rules.getFeatures(),
         ruleEvaluationResults);
     return ruleEvaluationResults;
+  }
+
+  protected List<Feature> getFeaturesWithErrors(
+      final Rules allRules,
+      final DataFetchResult dataFetchResult,
+      final RulesEvaluator.Options options) {
+    final Set<String> dataSourceNamesWithExceptions =
+        dataFetchResult.getDataSourceWithExceptions().keySet();
+    return allRules.getFeatures().stream()
+        .filter(
+            feature -> hasExceptionsForCondition(feature, dataSourceNamesWithExceptions, options))
+        .collect(Collectors.toList());
+  }
+
+  protected boolean hasExceptionsForCondition(
+      final Feature feature,
+      final Set<String> dataSourceWithExceptions,
+      RulesEvaluator.Options options) {
+    return conditionsByType(feature.getRequirements(), options)
+        .anyMatch(
+            condition ->
+                dataSourceWithExceptions.contains(
+                    new ParameterKey(condition.getKey()).getDataSource()));
   }
 }
