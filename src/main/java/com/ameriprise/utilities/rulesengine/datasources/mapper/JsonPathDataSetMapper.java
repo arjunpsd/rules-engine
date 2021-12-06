@@ -27,7 +27,7 @@ import com.ameriprise.utilities.rulesengine.rules.models.Parameter;
 import com.ameriprise.utilities.rulesengine.rules.models.ParameterKey;
 
 @Component
-@PropertySource(value = "${dataMapping.jsonPathDataSetMapper.config.path}")
+@PropertySource(value = "${dataMapping.jsonPathDataSetMapper.config.path:/json-path-config.yml}")
 public class JsonPathDataSetMapper implements DataSetMapper {
 
   @Value("#{${jsonPaths}}")

@@ -12,12 +12,12 @@ import org.springframework.test.context.junit4.SpringRunner;
 import com.ameriprise.utilities.rulesengine.AbstractTest;
 
 @RunWith(SpringRunner.class)
-public class RulesValidationRunnerTest extends AbstractTest {
+public class RulesValidatorTest extends AbstractTest {
 
-  @Autowired RulesValidationRunner validationRunner;
+  @Autowired RulesValidator rulesValidator;
 
   @Test
-  public void testValidateRules() {
-    validationRunner.validateRules("notification-business-rules");
+  public void testValidateRules() throws Exception {
+    rulesValidator.validateRules("notification-business-rules");
   }
 }

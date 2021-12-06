@@ -4,9 +4,9 @@
  */
 package com.ameriprise.utilities.rulesengine.rules;
 
+import static com.ameriprise.utilities.rulesengine.utils.DateTimeFormat.parseIsoDateTime;
 import static java.util.Objects.isNull;
 
-import java.time.LocalDate;
 import java.time.ZonedDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
@@ -23,27 +23,25 @@ public class Matchers {
   }
 
   public static boolean isWithinDays(long numberOfDays, final Parameter parameter) {
-    LocalDate givenDate = LocalDate.parse(getValue(parameter, "2999-12-31"));
-    LocalDate now = LocalDate.now();
+    ZonedDateTime now = ZonedDateTime.now();
+    ZonedDateTime givenDate = getValue(parameter, now.plusYears(100));
     return Math.abs(ChronoUnit.DAYS.between(now, givenDate)) <= numberOfDays;
   }
 
   public static boolean isBeyondDays(long numberOfDays, final Parameter parameter) {
-    LocalDate now = LocalDate.now();
-    LocalDate givenDate = LocalDate.parse(getValue(parameter, now.toString()));
+    ZonedDateTime now = ZonedDateTime.now();
+    ZonedDateTime givenDate = getValue(parameter, now.plusYears(100));
     return Math.abs(ChronoUnit.DAYS.between(givenDate, now)) > numberOfDays;
   }
 
   public static boolean isOneOf(final List<String> options, final Parameter parameter) {
     return options.stream()
-        .map(String::toLowerCase)
-        .anyMatch(givenValue -> givenValue.equals(getValue(parameter)));
+        .anyMatch(givenValue -> givenValue.equalsIgnoreCase(getValue(parameter)));
   }
 
   public static boolean isNotOneOf(final List<String> options, final Parameter parameter) {
     return options.stream()
-        .map(String::toLowerCase)
-        .noneMatch(givenValue -> givenValue.equals(getValue(parameter)));
+        .noneMatch(givenValue -> givenValue.equalsIgnoreCase(getValue(parameter)));
   }
 
   public static boolean contains(final String option, final Parameter parameter) {
@@ -69,12 +67,12 @@ public class Matchers {
   }
 
   private static String getValue(Parameter parameter, String valueIfNull) {
-    return isNull(parameter.getDataValue()) ? valueIfNull : parameter.getDataValue().toLowerCase();
+    return isNull(parameter.getDataValue()) ? valueIfNull : parameter.getDataValue();
   }
 
   private static ZonedDateTime getValue(Parameter parameter, ZonedDateTime valueIfNull) {
     return isNull(parameter.getDataValue())
         ? valueIfNull
-        : ZonedDateTime.parse(parameter.getDataValue());
+        : parseIsoDateTime(parameter.getDataValue());
   }
 }

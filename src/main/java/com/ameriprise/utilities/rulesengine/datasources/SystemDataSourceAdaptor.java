@@ -16,7 +16,7 @@ import com.ameriprise.utilities.rulesengine.datasources.models.DataSet;
 import com.ameriprise.utilities.rulesengine.rules.models.Parameter;
 import com.ameriprise.utilities.rulesengine.rules.models.ParameterKey;
 
-@Component("rules-engine-system-data")
+@Component("system-data-data-source-adaptor")
 public class SystemDataSourceAdaptor implements DataSourceAdaptor {
 
   @Override

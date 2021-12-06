@@ -329,7 +329,7 @@ public class RulesEvaluatorTest {
     boolean result = engine.evaluateCondition(condition);
 
     // then
-    assertFalse(result);
+    assertTrue(result);
   }
 
   @Test
@@ -446,6 +446,6 @@ public class RulesEvaluatorTest {
   }
 
   private Rules mockRules() {
-    return new ClassPathRulesLoader().load("notification-business-rules");
+    return new RulesFileLoader().load("notification-business-rules");
   }
 }
