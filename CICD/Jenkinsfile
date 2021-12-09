@@ -97,6 +97,9 @@ pipeline
             {
                   script
                   {
+                      // hack to fix artifactory upload into correct directory
+                      // uploader currently does not recognize maven revision properties
+                      sh 'source ./CICD/.env && sed -i "s/\\${revision}/$release/g" pom.xml'
                       runUploadToArtifactory(config)
                   }                  
             }
