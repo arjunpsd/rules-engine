@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta http-equiv="x-ua-compatible" content="IE=edge"/>
+<title>Test results - Class com.arctix.utilities.rulesengine.RulesEngineTest</title>
+<link href="../css/base-style.css" rel="stylesheet" type="text/css"/>
+<link href="../css/style.css" rel="stylesheet" type="text/css"/>
+<script src="../js/report.js" type="text/javascript"></script>
+</head>
+<body>
+<div id="content">
+<h1>Class com.arctix.utilities.rulesengine.RulesEngineTest</h1>
+<div class="breadcrumbs">
+<a href="../index.html">all</a> &gt; 
+<a href="../packages/com.arctix.utilities.rulesengine.html">com.arctix.utilities.rulesengine</a> &gt; RulesEngineTest</div>
+<div id="summary">
+<table>
+<tr>
+<td>
+<div class="summaryGroup">
+<table>
+<tr>
+<td>
+<div class="infoBox" id="tests">
+<div class="counter">8</div>
+<p>tests</p>
+</div>
+</td>
+<td>
+<div class="infoBox" id="failures">
+<div class="counter">0</div>
+<p>failures</p>
+</div>
+</td>
+<td>
+<div class="infoBox" id="ignored">
+<div class="counter">0</div>
+<p>ignored</p>
+</div>
+</td>
+<td>
+<div class="infoBox" id="duration">
+<div class="counter">0.186s</div>
+<p>duration</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</td>
+<td>
+<div class="infoBox success" id="successRate">
+<div class="percent">100%</div>
+<p>successful</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div id="tabs">
+<ul class="tabLinks">
+<li>
+<a href="#tab0">Tests</a>
+</li>
+<li>
+<a href="#tab1">Standard output</a>
+</li>
+</ul>
+<div id="tab0" class="tab">
+<h2>Tests</h2>
+<table>
+<thead>
+<tr>
+<th>Test</th>
+<th>Duration</th>
+<th>Result</th>
+</tr>
+</thead>
+<tr>
+<td class="success">testEvaluateRulesWithErrors</td>
+<td class="success">0.006s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">testExecuteRules_AllPass</td>
+<td class="success">0.137s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">testExecuteRules_FailCondition1</td>
+<td class="success">0.010s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">testExecuteRules_FailCondition2</td>
+<td class="success">0.009s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">testExecuteRules_FailPreCondition</td>
+<td class="success">0.015s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">testGetAttributesBySource_ForCondition</td>
+<td class="success">0.002s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">testGetAttributesBySource_ForPreCondition</td>
+<td class="success">0.003s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">testGetFeaturesWithErrors</td>
+<td class="success">0.004s</td>
+<td class="success">passed</td>
+</tr>
+</table>
+</div>
+<div id="tab1" class="tab">
+<h2>Standard output</h2>
+<span class="code">
+<pre>17:15:19.954 [Test worker] DEBUG c.a.u.rulesengine.RulesEngine - PRE_CONDITIONS_ONLY: Fetching data for rules: [Feature {name='feature1'}, Feature {name='feature2'}]
+17:15:19.976 [Test worker] DEBUG c.a.u.r.rules.RulesEvaluator - Evaluation of condition EvaluationCondition{key='ds1:attribute1', type='data', equals='p-one', notEquals='null', oneOf=null, notOneOf=null, withinDays=0, beyondDays=0, contains='null', notContains='null', after='null', before='null'} with data [Parameter{key=ds1:attribute1, dataValue='p-one', dataId='null'}] resulted in true
+17:15:19.982 [Test worker] DEBUG c.a.u.rulesengine.RulesEngine - PRE_CONDITIONS_ONLY: Rules Evaluated: [Feature {name='feature1'}, Feature {name='feature2'}] 
+Result: [RuleEvaluationResult {feature='feature1', returnValue='true', matched=[Evaluation { Condition = EvaluationCondition{key='ds2:attribute2', type='data', equals='c-two', notEquals='null', oneOf=null, notOneOf=null, withinDays=0, beyondDays=0, contains='null', notContains='null', after='null', before='null'}, Parameters = [Parameter{key=ds2:attribute2, dataValue='c-two', dataId='null'}]}]}, RuleEvaluationResult {feature='feature2', returnValue='true', matched=[Evaluation { Condition = EvaluationCondition{key='ds2:attribute2', type='data', equals='c-two', notEquals='null', oneOf=null, notOneOf=null, withinDays=0, beyondDays=0, contains='null', notContains='null', after='null', before='null'}, Parameters = [Parameter{key=ds2:attribute2, dataValue='c-two', dataId='null'}]}, Evaluation { Condition = EvaluationCondition{key='ds3:attribute3', type='data', equals='c-three', notEquals='null', oneOf=null, notOneOf=null, withinDays=0, beyondDays=0, contains='null', notContains='null', after='null', before='null'}, Parameters = [Parameter{key=ds3:attribute3, dataValue='c-three', dataId='null'}]}]}]
+17:15:19.988 [Test worker] DEBUG c.a.u.rulesengine.RulesEngine - CONDITIONS_ONLY: Fetching data for rules: [Feature {name='feature1'}, Feature {name='feature2'}]
+17:15:19.989 [Test worker] DEBUG c.a.u.r.rules.RulesEvaluator - Evaluation of condition EvaluationCondition{key='ds2:attribute2', type='data', equals='c-two', notEquals='null', oneOf=null, notOneOf=null, withinDays=0, beyondDays=0, contains='null', notContains='null', after='null', before='null'} with data [Parameter{key=ds2:attribute2, dataValue='c-two', dataId='null'}] resulted in true
+17:15:19.989 [Test worker] DEBUG c.a.u.r.rules.RulesEvaluator - Evaluation of condition EvaluationCondition{key='ds2:attribute2', type='data', equals='c-two', notEquals='null', oneOf=null, notOneOf=null, withinDays=0, beyondDays=0, contains='null', notContains='null', after='null', before='null'} with data [Parameter{key=ds2:attribute2, dataValue='c-two', dataId='null'}] resulted in true
+17:15:19.990 [Test worker] DEBUG c.a.u.r.rules.RulesEvaluator - Evaluation of condition EvaluationCondition{key='ds3:attribute3', type='data', equals='c-three', notEquals='null', oneOf=null, notOneOf=null, withinDays=0, beyondDays=0, contains='null', notContains='null', after='null', before='null'} with data [Parameter{key=ds3:attribute3, dataValue='c-three', dataId='null'}] resulted in true
+17:15:19.990 [Test worker] DEBUG c.a.u.rulesengine.RulesEngine - CONDITIONS_ONLY: Rules Evaluated: [Feature {name='feature1'}, Feature {name='feature2'}] 
+Result: [RuleEvaluationResult {feature='feature1', returnValue='true', matched=[Evaluation { Condition = EvaluationCondition{key='ds2:attribute2', type='data', equals='c-two', notEquals='null', oneOf=null, notOneOf=null, withinDays=0, beyondDays=0, contains='null', notContains='null', after='null', before='null'}, Parameters = [Parameter{key=ds2:attribute2, dataValue='c-two', dataId='null'}]}]}, RuleEvaluationResult {feature='feature2', returnValue='true', matched=[Evaluation { Condition = EvaluationCondition{key='ds2:attribute2', type='data', equals='c-two', notEquals='null', oneOf=null, notOneOf=null, withinDays=0, beyondDays=0, contains='null', notContains='null', after='null', before='null'}, Parameters = [Parameter{key=ds2:attribute2, dataValue='c-two', dataId='null'}]}, Evaluation { Condition = EvaluationCondition{key='ds3:attribute3', type='data', equals='c-three', notEquals='null', oneOf=null, notOneOf=null, withinDays=0, beyondDays=0, contains='null', notContains='null', after='null', before='null'}, Parameters = [Parameter{key=ds3:attribute3, dataValue='c-three', dataId='null'}]}]}]
+17:15:20.014 [Test worker] DEBUG c.a.u.rulesengine.RulesEngine - PRE_CONDITIONS_ONLY: Fetching data for rules: [Feature {name='feature1'}, Feature {name='feature2'}]
+17:15:20.019 [Test worker] DEBUG c.a.u.r.rules.RulesEvaluator - Evaluation of condition EvaluationCondition{key='ds1:attribute1', type='data', equals='p-one', notEquals='null', oneOf=null, notOneOf=null, withinDays=0, beyondDays=0, contains='null', notContains='null', after='null', before='null'} with data [Parameter{key=ds1:attribute1, dataValue='p-fail', dataId='null'}] resulted in false
+17:15:20.020 [Test worker] DEBUG c.a.u.rulesengine.RulesEngine - PRE_CONDITIONS_ONLY: Rules Evaluated: [Feature {name='feature1'}, Feature {name='feature2'}] 
+Result: [RuleEvaluationResult {feature='feature1', returnValue='false', matched=[]}, RuleEvaluationResult {feature='feature2', returnValue='true', matched=[Evaluation { Condition = EvaluationCondition{key='ds2:attribute2', type='data', equals='c-two', notEquals='null', oneOf=null, notOneOf=null, withinDays=0, beyondDays=0, contains='null', notContains='null', after='null', before='null'}, Parameters = [Parameter{key=ds2:attribute2, dataValue='c-two', dataId='null'}]}, Evaluation { Condition = EvaluationCondition{key='ds3:attribute3', type='data', equals='c-three', notEquals='null', oneOf=null, notOneOf=null, withinDays=0, beyondDays=0, contains='null', notContains='null', after='null', before='null'}, Parameters = [Parameter{key=ds3:attribute3, dataValue='c-three', dataId='null'}]}]}]
+17:15:20.021 [Test worker] DEBUG c.a.u.rulesengine.RulesEngine - CONDITIONS_ONLY: Fetching data for rules: [Feature {name='feature2'}]
+17:15:20.023 [Test worker] DEBUG c.a.u.r.rules.RulesEvaluator - Evaluation of condition EvaluationCondition{key='ds2:attribute2', type='data', equals='c-two', notEquals='null', oneOf=null, notOneOf=null, withinDays=0, beyondDays=0, contains='null', notContains='null', after='null', before='null'} with data [Parameter{key=ds2:attribute2, dataValue='c-two', dataId='null'}] resulted in true
+17:15:20.023 [Test worker] DEBUG c.a.u.r.rules.RulesEvaluator - Evaluation of condition EvaluationCondition{key='ds3:attribute3', type='data', equals='c-three', notEquals='null', oneOf=null, notOneOf=null, withinDays=0, beyondDays=0, contains='null', notContains='null', after='null', before='null'} with data [Parameter{key=ds3:attribute3, dataValue='c-three', dataId='null'}] resulted in true
+17:15:20.024 [Test worker] DEBUG c.a.u.rulesengine.RulesEngine - CONDITIONS_ONLY: Rules Evaluated: [Feature {name='feature2'}] 
+Result: [RuleEvaluationResult {feature='feature2', returnValue='true', matched=[Evaluation { Condition = EvaluationCondition{key='ds2:attribute2', type='data', equals='c-two', notEquals='null', oneOf=null, notOneOf=null, withinDays=0, beyondDays=0, contains='null', notContains='null', after='null', before='null'}, Parameters = [Parameter{key=ds2:attribute2, dataValue='c-two', dataId='null'}]}, Evaluation { Condition = EvaluationCondition{key='ds3:attribute3', type='data', equals='c-three', notEquals='null', oneOf=null, notOneOf=null, withinDays=0, beyondDays=0, contains='null', notContains='null', after='null', before='null'}, Parameters = [Parameter{key=ds3:attribute3, dataValue='c-three', dataId='null'}]}]}]
+17:15:20.032 [Test worker] DEBUG c.a.u.rulesengine.RulesEngine - PRE_CONDITIONS_ONLY: Fetching data for rules: [Feature {name='feature1'}, Feature {name='feature2'}]
+17:15:20.033 [Test worker] DEBUG c.a.u.r.rules.RulesEvaluator - Evaluation of condition EvaluationCondition{key='ds1:attribute1', type='data', equals='p-one', notEquals='null', oneOf=null, notOneOf=null, withinDays=0, beyondDays=0, contains='null', notContains='null', after='null', before='null'} with data [Parameter{key=ds1:attribute1, dataValue='p-one', dataId='null'}] resulted in true
+17:15:20.034 [Test worker] DEBUG c.a.u.rulesengine.RulesEngine - PRE_CONDITIONS_ONLY: Rules Evaluated: [Feature {name='feature1'}, Feature {name='feature2'}] 
+Result: [RuleEvaluationResult {feature='feature1', returnValue='true', matched=[Evaluation { Condition = EvaluationCondition{key='ds2:attribute2', type='data', equals='c-two', notEquals='null', oneOf=null, notOneOf=null, withinDays=0, beyondDays=0, contains='null', notContains='null', after='null', before='null'}, Parameters = []}]}, RuleEvaluationResult {feature='feature2', returnValue='true', matched=[Evaluation { Condition = EvaluationCondition{key='ds2:attribute2', type='data', equals='c-two', notEquals='null', oneOf=null, notOneOf=null, withinDays=0, beyondDays=0, contains='null', notContains='null', after='null', before='null'}, Parameters = []}, Evaluation { Condition = EvaluationCondition{key='ds3:attribute3', type='data', equals='c-three', notEquals='null', oneOf=null, notOneOf=null, withinDays=0, beyondDays=0, contains='null', notContains='null', after='null', before='null'}, Parameters = [Parameter{key=ds3:attribute3, dataValue='c-three', dataId='null'}]}]}]
+17:15:20.035 [Test worker] DEBUG c.a.u.rulesengine.RulesEngine - CONDITIONS_ONLY: Fetching data for rules: [Feature {name='feature1'}, Feature {name='feature2'}]
+17:15:20.036 [Test worker] DEBUG c.a.u.r.rules.RulesEvaluator - Evaluation of condition EvaluationCondition{key='ds2:attribute2', type='data', equals='c-two', notEquals='null', oneOf=null, notOneOf=null, withinDays=0, beyondDays=0, contains='null', notContains='null', after='null', before='null'} with data [Parameter{key=ds2:attribute2, dataValue='c-fail', dataId='null'}] resulted in false
+17:15:20.037 [Test worker] DEBUG c.a.u.r.rules.RulesEvaluator - Evaluation of condition EvaluationCondition{key='ds2:attribute2', type='data', equals='c-two', notEquals='null', oneOf=null, notOneOf=null, withinDays=0, beyondDays=0, contains='null', notContains='null', after='null', before='null'} with data [Parameter{key=ds2:attribute2, dataValue='c-fail', dataId='null'}] resulted in false
+17:15:20.037 [Test worker] DEBUG c.a.u.rulesengine.RulesEngine - CONDITIONS_ONLY: Rules Evaluated: [Feature {name='feature1'}, Feature {name='feature2'}] 
+Result: [RuleEvaluationResult {feature='feature1', returnValue='false', matched=[]}, RuleEvaluationResult {feature='feature2', returnValue='false', matched=[]}]
+17:15:20.043 [Test worker] DEBUG c.a.u.rulesengine.RulesEngine - PRE_CONDITIONS_ONLY: Fetching data for rules: [Feature {name='feature1'}, Feature {name='feature2'}]
+17:15:20.044 [Test worker] DEBUG c.a.u.r.rules.RulesEvaluator - Evaluation of condition EvaluationCondition{key='ds1:attribute1', type='data', equals='p-one', notEquals='null', oneOf=null, notOneOf=null, withinDays=0, beyondDays=0, contains='null', notContains='null', after='null', before='null'} with data [Parameter{key=ds1:attribute1, dataValue='p-one', dataId='null'}] resulted in true
+17:15:20.044 [Test worker] DEBUG c.a.u.rulesengine.RulesEngine - PRE_CONDITIONS_ONLY: Rules Evaluated: [Feature {name='feature1'}, Feature {name='feature2'}] 
+Result: [RuleEvaluationResult {feature='feature1', returnValue='true', matched=[Evaluation { Condition = EvaluationCondition{key='ds2:attribute2', type='data', equals='c-two', notEquals='null', oneOf=null, notOneOf=null, withinDays=0, beyondDays=0, contains='null', notContains='null', after='null', before='null'}, Parameters = [Parameter{key=ds2:attribute2, dataValue='c-two', dataId='null'}]}]}, RuleEvaluationResult {feature='feature2', returnValue='true', matched=[Evaluation { Condition = EvaluationCondition{key='ds2:attribute2', type='data', equals='c-two', notEquals='null', oneOf=null, notOneOf=null, withinDays=0, beyondDays=0, contains='null', notContains='null', after='null', before='null'}, Parameters = [Parameter{key=ds2:attribute2, dataValue='c-two', dataId='null'}]}, Evaluation { Condition = EvaluationCondition{key='ds3:attribute3', type='data', equals='c-three', notEquals='null', oneOf=null, notOneOf=null, withinDays=0, beyondDays=0, contains='null', notContains='null', after='null', before='null'}, Parameters = []}]}]
+17:15:20.046 [Test worker] DEBUG c.a.u.rulesengine.RulesEngine - CONDITIONS_ONLY: Fetching data for rules: [Feature {name='feature1'}, Feature {name='feature2'}]
+17:15:20.047 [Test worker] DEBUG c.a.u.r.rules.RulesEvaluator - Evaluation of condition EvaluationCondition{key='ds2:attribute2', type='data', equals='c-two', notEquals='null', oneOf=null, notOneOf=null, withinDays=0, beyondDays=0, contains='null', notContains='null', after='null', before='null'} with data [Parameter{key=ds2:attribute2, dataValue='c-two', dataId='null'}] resulted in true
+17:15:20.047 [Test worker] DEBUG c.a.u.r.rules.RulesEvaluator - Evaluation of condition EvaluationCondition{key='ds2:attribute2', type='data', equals='c-two', notEquals='null', oneOf=null, notOneOf=null, withinDays=0, beyondDays=0, contains='null', notContains='null', after='null', before='null'} with data [Parameter{key=ds2:attribute2, dataValue='c-two', dataId='null'}] resulted in true
+17:15:20.048 [Test worker] DEBUG c.a.u.r.rules.RulesEvaluator - Evaluation of condition EvaluationCondition{key='ds3:attribute3', type='data', equals='c-three', notEquals='null', oneOf=null, notOneOf=null, withinDays=0, beyondDays=0, contains='null', notContains='null', after='null', before='null'} with data [Parameter{key=ds3:attribute3, dataValue='c-fail', dataId='null'}] resulted in false
+17:15:20.049 [Test worker] DEBUG c.a.u.rulesengine.RulesEngine - CONDITIONS_ONLY: Rules Evaluated: [Feature {name='feature1'}, Feature {name='feature2'}] 
+Result: [RuleEvaluationResult {feature='feature1', returnValue='true', matched=[Evaluation { Condition = EvaluationCondition{key='ds2:attribute2', type='data', equals='c-two', notEquals='null', oneOf=null, notOneOf=null, withinDays=0, beyondDays=0, contains='null', notContains='null', after='null', before='null'}, Parameters = [Parameter{key=ds2:attribute2, dataValue='c-two', dataId='null'}]}]}, RuleEvaluationResult {feature='feature2', returnValue='false', matched=[]}]
+17:15:20.052 [Test worker] WARN  c.a.u.rulesengine.RulesEngine - The following features will not be evaluated due to errors in fetching data from data sources: [Feature {name='feature2'}]
+17:15:20.052 [Test worker] DEBUG c.a.u.rulesengine.RulesEngine - Features to be evaluated: [Feature {name='feature1'}]
+17:15:20.053 [Test worker] DEBUG c.a.u.r.rules.RulesEvaluator - Evaluation of condition EvaluationCondition{key='ds2:attribute2', type='data', equals='c-two', notEquals='null', oneOf=null, notOneOf=null, withinDays=0, beyondDays=0, contains='null', notContains='null', after='null', before='null'} with data [Parameter{key=ds2:attribute2, dataValue='c-two', dataId='null'}] resulted in true
+17:15:20.053 [Test worker] DEBUG c.a.u.rulesengine.RulesEngine - CONDITIONS_ONLY: Rules Evaluated: [Feature {name='feature1'}, Feature {name='feature2'}] 
+Result: [RuleEvaluationResult {feature='feature1', returnValue='true', matched=[Evaluation { Condition = EvaluationCondition{key='ds2:attribute2', type='data', equals='c-two', notEquals='null', oneOf=null, notOneOf=null, withinDays=0, beyondDays=0, contains='null', notContains='null', after='null', before='null'}, Parameters = [Parameter{key=ds2:attribute2, dataValue='c-two', dataId='null'}]}]}]
+</pre>
+</span>
+</div>
+</div>
+<div id="footer">
+<p>
+<div>
+<label class="hidden" id="label-for-line-wrapping-toggle" for="line-wrapping-toggle">Wrap lines
+<input id="line-wrapping-toggle" type="checkbox" autocomplete="off"/>
+</label>
+</div>Generated by 
+<a href="http://www.gradle.org">Gradle 6.8.1</a> at Dec 23, 2021, 5:15:20 PM</p>
+</div>
+</div>
+</body>
+</html>

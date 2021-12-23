@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.arctix.utilities.rulesengine.config.SimpleCacheTest" tests="4" skipped="0" failures="0" errors="0" timestamp="2021-12-23T23:15:17" hostname="Arjuns-MacBook-Pro.local" time="2.559">
+  <properties/>
+  <testcase name="testAddAndGetStale" classname="com.arctix.utilities.rulesengine.config.SimpleCacheTest" time="0.504"/>
+  <testcase name="testAddAndGetExpired" classname="com.arctix.utilities.rulesengine.config.SimpleCacheTest" time="0.504"/>
+  <testcase name="testAddAndGet" classname="com.arctix.utilities.rulesengine.config.SimpleCacheTest" time="0.501"/>
+  <testcase name="testAddAndPurge" classname="com.arctix.utilities.rulesengine.config.SimpleCacheTest" time="1.048"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

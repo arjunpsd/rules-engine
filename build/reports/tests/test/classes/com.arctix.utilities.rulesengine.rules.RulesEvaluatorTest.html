@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta http-equiv="x-ua-compatible" content="IE=edge"/>
+<title>Test results - Class com.arctix.utilities.rulesengine.rules.RulesEvaluatorTest</title>
+<link href="../css/base-style.css" rel="stylesheet" type="text/css"/>
+<link href="../css/style.css" rel="stylesheet" type="text/css"/>
+<script src="../js/report.js" type="text/javascript"></script>
+</head>
+<body>
+<div id="content">
+<h1>Class com.arctix.utilities.rulesengine.rules.RulesEvaluatorTest</h1>
+<div class="breadcrumbs">
+<a href="../index.html">all</a> &gt; 
+<a href="../packages/com.arctix.utilities.rulesengine.rules.html">com.arctix.utilities.rulesengine.rules</a> &gt; RulesEvaluatorTest</div>
+<div id="summary">
+<table>
+<tr>
+<td>
+<div class="summaryGroup">
+<table>
+<tr>
+<td>
+<div class="infoBox" id="tests">
+<div class="counter">17</div>
+<p>tests</p>
+</div>
+</td>
+<td>
+<div class="infoBox" id="failures">
+<div class="counter">0</div>
+<p>failures</p>
+</div>
+</td>
+<td>
+<div class="infoBox" id="ignored">
+<div class="counter">0</div>
+<p>ignored</p>
+</div>
+</td>
+<td>
+<div class="infoBox" id="duration">
+<div class="counter">0.096s</div>
+<p>duration</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</td>
+<td>
+<div class="infoBox success" id="successRate">
+<div class="percent">100%</div>
+<p>successful</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div id="tabs">
+<ul class="tabLinks">
+<li>
+<a href="#tab0">Tests</a>
+</li>
+<li>
+<a href="#tab1">Standard output</a>
+</li>
+</ul>
+<div id="tab0" class="tab">
+<h2>Tests</h2>
+<table>
+<thead>
+<tr>
+<th>Test</th>
+<th>Duration</th>
+<th>Result</th>
+</tr>
+</thead>
+<tr>
+<td class="success">testEvaluateCondition_MatchAfter_Negative</td>
+<td class="success">0.001s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">testEvaluateCondition_MatchAfter_Positive</td>
+<td class="success">0.003s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">testEvaluateCondition_MatchBefore_Negative</td>
+<td class="success">0.002s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">testEvaluateCondition_MatchBefore_Positive</td>
+<td class="success">0.016s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">testEvaluateCondition_MatchBeyondNoData_Negative_1</td>
+<td class="success">0.002s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">testEvaluateCondition_MatchBeyond_Negative</td>
+<td class="success">0.001s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">testEvaluateCondition_MatchBeyond_Positive</td>
+<td class="success">0.004s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">testEvaluateCondition_MatchNotOneOf_Negative</td>
+<td class="success">0.001s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">testEvaluateCondition_MatchNotOneOf_Positive</td>
+<td class="success">0.002s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">testEvaluateCondition_MatchOneOf_Negative</td>
+<td class="success">0.001s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">testEvaluateCondition_MatchOneOf_Positive</td>
+<td class="success">0.001s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">testEvaluateCondition_MatchOneOf_Positive_WithNull</td>
+<td class="success">0.003s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">testEvaluateCondition_MatchWithinNoData_Negative_2</td>
+<td class="success">0.011s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">testEvaluateCondition_MatchWithin_Negative</td>
+<td class="success">0.002s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">testEvaluateCondition_MatchWithin_Positive</td>
+<td class="success">0.002s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">testEvaluate_AllNegative</td>
+<td class="success">0.016s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">testEvaluate_AllPositive</td>
+<td class="success">0.028s</td>
+<td class="success">passed</td>
+</tr>
+</table>
+</div>
+<div id="tab1" class="tab">
+<h2>Standard output</h2>
+<span class="code">
+<pre>17:15:20.066 [Test worker] DEBUG c.a.u.r.rules.RulesEvaluator - No data exists for evaluating condition EvaluationCondition{key='user-profile:registration-date', type='null', equals='null', notEquals='null', oneOf=null, notOneOf=null, withinDays=180, beyondDays=0, contains='null', notContains='null', after='null', before='null'}. Evaluating with null value.
+17:15:20.076 [Test worker] DEBUG c.a.u.r.rules.RulesEvaluator - Evaluation of condition EvaluationCondition{key='user-profile:registration-date', type='null', equals='null', notEquals='null', oneOf=null, notOneOf=null, withinDays=180, beyondDays=0, contains='null', notContains='null', after='null', before='null'} with data [] resulted in false
+17:15:20.078 [Test worker] DEBUG c.a.u.r.rules.RulesEvaluator - Evaluation of condition EvaluationCondition{key='user-profile:badge-level', type='null', equals='null', notEquals='null', oneOf=null, notOneOf=[ENROLLED], withinDays=0, beyondDays=0, contains='null', notContains='null', after='null', before='null'} with data [Parameter{key=user-profile:badge-level, dataValue='BRONZE', dataId='null'}] resulted in true
+17:15:20.080 [Test worker] DEBUG c.a.u.r.rules.RulesEvaluator - Evaluation of condition EvaluationCondition{key='user-profile:badge-level', type='null', equals='null', notEquals='null', oneOf=null, notOneOf=[BRONZE], withinDays=0, beyondDays=0, contains='null', notContains='null', after='null', before='null'} with data [Parameter{key=user-profile:badge-level, dataValue='BRONZE', dataId='null'}] resulted in false
+17:15:20.097 [Test worker] DEBUG c.a.u.r.rules.RulesEvaluator - Evaluation of condition EvaluationCondition{key='system-data:date-time', type='null', equals='null', notEquals='null', oneOf=null, notOneOf=null, withinDays=0, beyondDays=0, contains='null', notContains='null', after='null', before='2045-01-31T00:00:00Z'} with data [Parameter{key=system-data:date-time, dataValue='2021-12-23T17:15:20.082016-06:00', dataId='null'}] resulted in true
+17:15:20.101 [Test worker] DEBUG c.a.u.r.rules.RulesEvaluator - Evaluation of condition EvaluationCondition{key='system-data:date-time', type='null', equals='null', notEquals='null', oneOf=null, notOneOf=null, withinDays=0, beyondDays=0, contains='null', notContains='null', after='null', before='2021-01-31T00:00:00Z'} with data [Parameter{key=system-data:date-time, dataValue='2021-12-23T17:15:20.10016-06:00', dataId='null'}] resulted in false
+17:15:20.103 [Test worker] DEBUG c.a.u.r.rules.RulesEvaluator - Evaluation of condition EvaluationCondition{key='user-profile:registration-date', type='null', equals='null', notEquals='null', oneOf=null, notOneOf=null, withinDays=180, beyondDays=0, contains='null', notContains='null', after='null', before='null'} with data [Parameter{key=user-profile:registration-date, dataValue='2021-09-23', dataId='null'}] resulted in true
+17:15:20.105 [Test worker] DEBUG c.a.u.r.rules.RulesEvaluator - Evaluation of condition EvaluationCondition{key='user-profile:registration-date', type='null', equals='null', notEquals='null', oneOf=null, notOneOf=null, withinDays=5, beyondDays=0, contains='null', notContains='null', after='null', before='null'} with data [Parameter{key=user-profile:registration-date, dataValue='2021-09-23', dataId='null'}] resulted in false
+17:15:20.109 [Test worker] DEBUG c.a.u.r.rules.RulesEvaluator - Evaluation of condition EvaluationCondition{key='user-profile:badge-level', type='null', equals='null', notEquals='null', oneOf=[BRONZE, XYZ, null], notOneOf=null, withinDays=0, beyondDays=0, contains='null', notContains='null', after='null', before='null'} with data [Parameter{key=user-profile:badge-level, dataValue='BRONZE', dataId='null'}] resulted in true
+17:15:20.111 [Test worker] DEBUG c.a.u.r.rules.RulesEvaluator - Evaluation of condition EvaluationCondition{key='system-data:date-time', type='null', equals='null', notEquals='null', oneOf=null, notOneOf=null, withinDays=0, beyondDays=0, contains='null', notContains='null', after='2021-01-31T00:00:00Z', before='null'} with data [Parameter{key=system-data:date-time, dataValue='2021-12-23T17:15:20.110465-06:00', dataId='null'}] resulted in true
+17:15:20.114 [Test worker] DEBUG c.a.u.r.rules.RulesEvaluator - Evaluation of condition EvaluationCondition{key='system-data:date-time', type='null', equals='null', notEquals='null', oneOf=null, notOneOf=null, withinDays=0, beyondDays=0, contains='null', notContains='null', after='2045-01-31T00:00:00Z', before='null'} with data [Parameter{key=system-data:date-time, dataValue='2021-12-23T17:15:20.11363-06:00', dataId='null'}] resulted in false
+17:15:20.130 [Test worker] DEBUG c.a.u.r.rules.RulesEvaluator - Evaluation of condition EvaluationCondition{key='user-profile:badge-level', type='data', equals='null', notEquals='null', oneOf=null, notOneOf=[GOLD, SILVER], withinDays=0, beyondDays=0, contains='null', notContains='null', after='null', before='null'} with data [Parameter{key=user-profile:badge-level, dataValue='BRONZE', dataId='null'}] resulted in true
+17:15:20.137 [Test worker] DEBUG c.a.u.r.rules.RulesEvaluator - Evaluation of condition EvaluationCondition{key='user-profile:registration-date', type='data', equals='null', notEquals='null', oneOf=null, notOneOf=null, withinDays=1800, beyondDays=0, contains='null', notContains='null', after='null', before='null'} with data [Parameter{key=user-profile:registration-date, dataValue='2021-09-23', dataId='null'}] resulted in true
+17:15:20.142 [Test worker] DEBUG c.a.u.r.rules.RulesEvaluator - No data exists for evaluating condition EvaluationCondition{key='user-profile:registration-date', type='null', equals='null', notEquals='null', oneOf=null, notOneOf=null, withinDays=0, beyondDays=180, contains='null', notContains='null', after='null', before='null'}. Evaluating with null value.
+17:15:20.143 [Test worker] DEBUG c.a.u.r.rules.RulesEvaluator - Evaluation of condition EvaluationCondition{key='user-profile:registration-date', type='null', equals='null', notEquals='null', oneOf=null, notOneOf=null, withinDays=0, beyondDays=180, contains='null', notContains='null', after='null', before='null'} with data [] resulted in true
+17:15:20.155 [Test worker] DEBUG c.a.u.r.rules.RulesEvaluator - No data exists for evaluating condition EvaluationCondition{key='user-profile:badge-level', type='data', equals='null', notEquals='null', oneOf=null, notOneOf=[GOLD, SILVER], withinDays=0, beyondDays=0, contains='null', notContains='null', after='null', before='null'}. Evaluating with null value.
+17:15:20.156 [Test worker] DEBUG c.a.u.r.rules.RulesEvaluator - Evaluation of condition EvaluationCondition{key='user-profile:badge-level', type='data', equals='null', notEquals='null', oneOf=null, notOneOf=[GOLD, SILVER], withinDays=0, beyondDays=0, contains='null', notContains='null', after='null', before='null'} with data [] resulted in true
+17:15:20.157 [Test worker] DEBUG c.a.u.r.rules.RulesEvaluator - No data exists for evaluating condition EvaluationCondition{key='user-profile:registration-date', type='data', equals='null', notEquals='null', oneOf=null, notOneOf=null, withinDays=1800, beyondDays=0, contains='null', notContains='null', after='null', before='null'}. Evaluating with null value.
+17:15:20.158 [Test worker] DEBUG c.a.u.r.rules.RulesEvaluator - Evaluation of condition EvaluationCondition{key='user-profile:registration-date', type='data', equals='null', notEquals='null', oneOf=null, notOneOf=null, withinDays=1800, beyondDays=0, contains='null', notContains='null', after='null', before='null'} with data [] resulted in false
+17:15:20.162 [Test worker] DEBUG c.a.u.r.rules.RulesEvaluator - Evaluation of condition EvaluationCondition{key='user-profile:registration-date', type='null', equals='null', notEquals='null', oneOf=null, notOneOf=null, withinDays=0, beyondDays=5, contains='null', notContains='null', after='null', before='null'} with data [Parameter{key=user-profile:registration-date, dataValue='2021-09-23', dataId='null'}] resulted in true
+17:15:20.166 [Test worker] DEBUG c.a.u.r.rules.RulesEvaluator - Evaluation of condition EvaluationCondition{key='user-profile:badge-level', type='null', equals='null', notEquals='null', oneOf=[SILVER, BRONZE], notOneOf=null, withinDays=0, beyondDays=0, contains='null', notContains='null', after='null', before='null'} with data [Parameter{key=user-profile:badge-level, dataValue='BRONZE', dataId='null'}] resulted in true
+17:15:20.168 [Test worker] DEBUG c.a.u.r.rules.RulesEvaluator - Evaluation of condition EvaluationCondition{key='user-profile:registration-date', type='null', equals='null', notEquals='null', oneOf=null, notOneOf=null, withinDays=0, beyondDays=180, contains='null', notContains='null', after='null', before='null'} with data [Parameter{key=user-profile:registration-date, dataValue='2021-09-23', dataId='null'}] resulted in false
+17:15:20.170 [Test worker] DEBUG c.a.u.r.rules.RulesEvaluator - Evaluation of condition EvaluationCondition{key='user-profile:badge-level', type='null', equals='null', notEquals='null', oneOf=[ABC, XYZ, UVX], notOneOf=null, withinDays=0, beyondDays=0, contains='null', notContains='null', after='null', before='null'} with data [Parameter{key=user-profile:badge-level, dataValue='BRONZE', dataId='null'}] resulted in false
+</pre>
+</span>
+</div>
+</div>
+<div id="footer">
+<p>
+<div>
+<label class="hidden" id="label-for-line-wrapping-toggle" for="line-wrapping-toggle">Wrap lines
+<input id="line-wrapping-toggle" type="checkbox" autocomplete="off"/>
+</label>
+</div>Generated by 
+<a href="http://www.gradle.org">Gradle 6.8.1</a> at Dec 23, 2021, 5:15:20 PM</p>
+</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.arctix.utilities.rulesengine.example.datasources.UserProfileDataSourceAdaptorTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2021-12-23T23:15:19" hostname="Arjuns-MacBook-Pro.local" time="0.005">
+  <properties/>
+  <testcase name="testFetchRegistrationData" classname="com.arctix.utilities.rulesengine.example.datasources.UserProfileDataSourceAdaptorTest" time="0.005"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

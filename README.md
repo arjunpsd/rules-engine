@@ -1,13 +1,12 @@
-# Secure Site Rules Engine Library
+# A simple Java based Rules Engine library
 
-Secure Site rules engine is a library that implements a business-readable DSL for evaluating data and a set of
-conditions that result in some action. Example of a business rule for the secure site is one that makes determination if
-a user should be presented with a notification to enroll for text alerts, if they have a phone number that is SMS
-enabled.
+This is demo library that implements a business-readable DSL for evaluating data and a set of
+conditions that result in some action. Example of a business rule is one that makes determination if
+a user should be presented with a notification to enroll for mailing lists, if they happen to be a frequent visitor to a site.
 
 ## Business Rules DSL
 
-Below is a sample business rules JSON file written in Secure Site Rules Engine library's DSL. At root of every business
+Below is a sample business rules JSON file written in Rules Engine library's DSL. At root of every business
 rules file is a collection of _'features'_ that represent the business decision to be made. Each _feature_ will have a
 set of _requirements_ that will be evaluated and an optional set of _actions_ to be taken if the evaluation results in a
 positive outcome. _requirements_ contain a set of _conditions_ to be evaluated. An optional set of _preConditions_ can
@@ -15,49 +14,47 @@ be defined that will be evaluated before the _conditions_ are evaluated.
 
 ```json
 {
-  "description": "rules for evaluating notifications",
-  "features": [
-    {
-      "name": "sms_enrollment_notification",
-      "description": "rules to evaluate of SMS enrollment notification should be displayed",
-      "requirements": {
-        "preConditions": [
-          {
-            "type": "data",
-            "key": "notification-rules:sms-enrollment-notification.last-execution-date",
-            "beyondDays": 7
-          },
-          {
-            "type": "data",
-            "key": "notification-rules:sms-enrollment-notification.status",
-            "notEquals": "127"
-          }
-        ],
-        "conditions": [
-          {
-            "type": "data",
-            "key": "client-telephones:sms-enrollment-status",
-            "notOneOf": [
-              "ENROLLED"
-            ]
-          },
-          {
-            "type": "data",
-            "key": "registration:enrollment.SCS_SITE.action-date",
-            "withinDays": 180
-          }
-        ]
-      },
-      "actions": [
-        {
-          "type": "return",
-          "key": "sms_enrollment_notification",
-          "value": "Y",
-          "defaultValue": "N"
-        }
-      ]
-    }
-  ]
+"description": "rules for evaluating notifications",
+"features": [
+	{
+	"name": "mailing_list_notification",
+	"description": "rules to evaluate if mailing signup notification should be displayed",
+	"requirements": {
+		"preConditions": [
+		{
+			"type": "data",
+			"key": "notification-rules:mailing-list-notification.last-evaluation-date",
+			"beyondDays": 7
+		},
+		{
+			"type": "data",
+			"key": "notification-rules:mailing-list-notification.status",
+			"notEquals": "DISMISSED"
+		}
+		],
+		"conditions": [
+		{
+			"type": "data",
+			"key": "user-profile:user-profile.badge-level",
+			"notOneOf": ["GOLD", "SILVER"]
+		},
+		{
+			"type": "data",
+			"key": "user-profile:registration-date",
+			"withinDays": 180
+		}
+		]
+	},
+	"actions": [
+		{
+		"type": "return",
+		"key": "mailing_list_enrollment_notification",
+		"value": "Y",
+		"defaultValue": "N"
+		}
+	]
+}
+]
 }
 ```
 
@@ -67,7 +64,7 @@ The following table describes properties that can be used to define _conditions_
 | --- | --- |
 | type | Required. Should always be `data`. Indicates condition is evaluated using data that fetched by the rules engine. |
 | key | Required. Identifier or name for the property in a `DataSet` that contains data-value to be used for evaluating the rule. Key is a _tuple_ that contains a data source name and a property name separated by ':'|
-| \<matcher\> | Required. An operator used to match/compare the data-value with a given value. | 
+| \<matcher\> | Required. An operator used to match/compare the data-value with a given value. |
 
 The following table describes all `matchers` that are currently implemented:
 
@@ -93,9 +90,9 @@ method is as follows:
 
 ```java
 public class RulesEngine {
-    public CompletableFuture<List<RuleEvaluationResult>> executeRules(
-            String ruleSetName, Map<?, ?> userData) {
-    }
+	public CompletableFuture<List<RuleEvaluationResult>> executeRules(
+			String ruleSetName, Map<?, ?> userData) {
+	}
 }
 ```
 
@@ -107,10 +104,10 @@ rule-set json file (without .json extension) at the root of classpath. For examp
 and execute rules in a file named `/user-notification-rules.json` at the root of current classpath
 
 ```java
- rulesEngine.executeRules("user-notification-rules",userData)
-        .thenAccept(evaluationResult->{
-        //do something with the result
-        });
+rulesEngine.executeRules("user-notification-rules",userData)
+		.thenAccept(evaluationResult->{
+		//do something with the result
+		});
 ```
 
 ### Data Source Adaptors
@@ -122,25 +119,24 @@ must implement `DataSourceAdaptor` interface and its `fetch` method.
 
 ```java
 public interface DataSourceAdaptor {
-    CompletableFuture<DataSet> fetch(DataFetchingContext dfe);
+	CompletableFuture<DataSet> fetch(DataFetchingContext dfe);
 }
 ```
 
 A couple of sample data source adaptors are provided in the rules engine library source for reference. Additionally, you
 may also use a utility class (`JsonPathDataSetMapper`) that can easily convert JSON data into `DataSet` objects using
-_JsonPath_. See `AdviceInsightsDataSourceAdaptor` class for usage.
+_JsonPath_. See `UserProfileDataSourceAdaptor` class for usage.
 
 ### Mapping Parameters/Keys in Rules to Data Source adaptors
 
 For every parameter/key referenced within a condition or pre-condition in the business rules file, there must be at
 least one `DataSourceAdaptor` class annotated with the data source name (first part of the key separated by ':''). In
-the following example for a key in business rule condition, 'advice-insights' is the name of the data source adaptor
-bean, while '
-anniversary-milestone-number' is the data attribute that is fetched by the adaptor and returned within a `DataSet`
+the following example for a key in business rule condition, 'user-profile' is the name of the data source adaptor
+bean, while 'registration-date' is the data attribute that is fetched by the adaptor and returned within a `DataSet`
 
 ```json
 {
-  "key": "advice-insights:anniversary-milestone-number"
+"key": "user-profile:registration-date"
 }
 ```
 
@@ -166,7 +162,7 @@ the `validateRules` method of `RulesValidationRunner` class, passing in the name
 By convention, test file should also have the same name as the business rules file, but with suffix `-tests`
 
 ```java
-    testRunner.validateRules("user-notification-rules");
+	testRunner.validateRules("user-notification-rules");
 ```
 
 Test files are also loaded using the same process as the business rules file under test (ie from classpath). For
