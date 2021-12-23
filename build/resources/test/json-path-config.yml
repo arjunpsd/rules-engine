@@ -1,5 +1,0 @@
-dataMapping:
-  jsonPaths: { \
-    'user-profile:registration-date': '$..registrationDate', \
-    'user-profile:badge-level': '$..badges' \
-  }
